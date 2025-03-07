@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Logo -->
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/logo"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Full Name -->
+        <EditText
+            android:id="@+id/etFullName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Full Name"
+            android:textColor="@color/black"
+            android:hintTextColor="@color/gray"
+            android:background="@drawable/edittext_underline"
+            android:paddingHorizontal="10dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Address -->
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Address"
+            android:textColor="@color/black"
+            android:hintTextColor="@color/gray"
+            android:background="@drawable/edittext_underline"
+            android:paddingHorizontal="10dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Email"
+            android:textColor="@color/black"
+            android:hintTextColor="@color/gray"
+            android:background="@drawable/edittext_underline"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="10dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Password -->
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Password"
+            android:textColor="@color/black"
+            android:hintTextColor="@color/gray"
+            android:background="@drawable/edittext_underline"
+            android:inputType="textPassword"
+            android:paddingHorizontal="10dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Phone Number -->
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Phone Number"
+            android:textColor="@color/black"
+            android:hintTextColor="@color/gray"
+            android:background="@drawable/edittext_underline"
+            android:inputType="phone"
+            android:paddingHorizontal="10dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="14dp"/>
+
+        <!-- Chọn loại tài khoản -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn là:"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginBottom="6dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="14dp">
+
+            <CheckBox
+                android:id="@+id/cbUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Người dùng"
+                android:textColor="@color/black"/>
+
+            <CheckBox
+                android:id="@+id/cbRescueDriver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tài xế cứu hộ"
+                android:textColor="@color/black"
+                android:layout_marginLeft="16dp"/>
+        </LinearLayout>
+
+        <!-- Button Register -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Register"
+            android:background="@drawable/btn_bg"
+            android:textColor="@color/white"
+            android:padding="12dp"
+            android:textSize="18sp"
+            />
+    </LinearLayout>
+</ScrollView>

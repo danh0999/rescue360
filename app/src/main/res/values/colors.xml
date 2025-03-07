@@ -1,0 +1,9 @@
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="dark_gray">#121212</color> <!-- Màu nền xám đen -->
+    <color name="gray">#1E1E1E</color> <!-- Màu nút tối -->
+    <color name="blue_accent">#03DAC5</color> <!-- Màu nhấn xanh dương -->
+    <color name="purple_500">#6200EE</color>
+    <color name="light_gray">#F5F5F5</color>
+</resources>

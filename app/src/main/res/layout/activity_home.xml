@@ -40,9 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:background="@color/light_gray"
+        android:background="@drawable/border_linear"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_bar">
 
@@ -53,12 +53,14 @@
             android:layout_height="81dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical"
+            android:background="@drawable/border_linear_items"
             android:padding="0dp">
 
             <ImageView
                 android:id="@+id/imgOutOfFuel"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
                 app:srcCompat="@drawable/fuel_lg" />
 
             <TextView
@@ -79,12 +81,14 @@
             android:layout_height="81dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical"
+            android:background="@drawable/border_linear_items"
             android:padding="0dp">
 
             <ImageView
                 android:id="@+id/imgFlatTire"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="55dp"
+                android:layout_gravity="center"
                 app:srcCompat="@drawable/tire_lg" />
 
             <TextView
@@ -105,12 +109,14 @@
             android:layout_height="81dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical"
+            android:background="@drawable/border_linear_items"
             android:padding="0dp">
 
             <ImageView
                 android:id="@+id/imgEngineFailure"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="55dp"
+                android:layout_gravity="center"
                 app:srcCompat="@drawable/engine_lg" />
 
             <TextView
@@ -131,12 +137,15 @@
             android:layout_height="81dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical"
+            android:background="@drawable/border_linear_items"
             android:padding="0dp">
 
             <ImageView
                 android:id="@+id/imgAccident"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 app:srcCompat="@drawable/accident_lg" />
 
             <TextView
@@ -156,12 +165,14 @@
             android:layout_width="69dp"
             android:layout_height="81dp"
             android:orientation="vertical"
+            android:background="@drawable/border_linear_items"
             android:padding="0dp">
 
             <ImageView
                 android:id="@+id/imgOther"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="55dp"
+                android:layout_gravity="center"
                 app:srcCompat="@drawable/other_lg" />
 
             <TextView
@@ -185,6 +196,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
+        android:background=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/service_buttons">
@@ -195,8 +207,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:background="@drawable/button_background"
-            android:backgroundTint="@color/purple_200"
+            android:background="@drawable/btn_bg"
             android:text="Thanh toán" />
 
         <Button
@@ -204,8 +215,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button_background"
-            android:backgroundTint="@color/purple_200"
+            android:background="@drawable/btn_bg"
             android:text="Vị trí hiện tại" />
     </LinearLayout>
 

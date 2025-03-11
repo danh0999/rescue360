@@ -51,7 +51,7 @@
         android:layout_gravity="center"
         android:paddingTop="10dp"
         android:text="Forgot Password?"
-        android:textColor="@color/blue_accent" />
+        android:textColor="@color/teal_200" />
 
     <EditText
         android:id="@+id/etPhone"

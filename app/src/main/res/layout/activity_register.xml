@@ -86,6 +86,7 @@
                 android:layout_marginLeft="16dp"/>
         </LinearLayout>
 
+
         <!-- Button Register -->
         <Button
             android:id="@+id/btnRegister"

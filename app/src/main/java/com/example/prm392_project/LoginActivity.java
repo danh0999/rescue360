@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show();
             return;
         }
-
         // Dummy OTP sending logic, replace with actual OTP sending logic
         Toast.makeText(this, "OTP sent to " + phone, Toast.LENGTH_SHORT).show();
     }

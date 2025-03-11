@@ -2,19 +2,20 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gray"
+    android:background="@color/white"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_gravity="center">
 
         <!-- Logo -->
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:src="@drawable/logo"
             android:scaleType="fitCenter"
             android:layout_marginBottom="16dp"/>
@@ -24,68 +25,35 @@
             android:id="@+id/etFullName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Full Name"
-            android:textColor="@color/black"
-            android:hintTextColor="@color/gray"
-            android:background="@drawable/edittext_underline"
-            android:paddingHorizontal="10dp"
-            android:textSize="14sp"
-            android:layout_marginBottom="10dp"/>
+            android:hint="Full Name" />
 
         <!-- Address -->
         <EditText
             android:id="@+id/etAddress"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Address"
-            android:textColor="@color/black"
-            android:hintTextColor="@color/gray"
-            android:background="@drawable/edittext_underline"
-            android:paddingHorizontal="10dp"
-            android:textSize="14sp"
-            android:layout_marginBottom="10dp"/>
+            android:hint="Address" />
 
         <!-- Email -->
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Email"
-            android:textColor="@color/black"
-            android:hintTextColor="@color/gray"
-            android:background="@drawable/edittext_underline"
-            android:inputType="textEmailAddress"
-            android:paddingHorizontal="10dp"
-            android:textSize="14sp"
-            android:layout_marginBottom="10dp"/>
+            android:hint="Email" />
 
         <!-- Password -->
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Password"
-            android:textColor="@color/black"
-            android:hintTextColor="@color/gray"
-            android:background="@drawable/edittext_underline"
-            android:inputType="textPassword"
-            android:paddingHorizontal="10dp"
-            android:textSize="14sp"
-            android:layout_marginBottom="10dp"/>
+            android:hint="Password" />
 
         <!-- Phone Number -->
         <EditText
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Phone Number"
-            android:textColor="@color/black"
-            android:hintTextColor="@color/gray"
-            android:background="@drawable/edittext_underline"
-            android:inputType="phone"
-            android:paddingHorizontal="10dp"
-            android:textSize="14sp"
-            android:layout_marginBottom="14dp"/>
+            android:hint="Phone Number" />
 
         <!-- Chọn loại tài khoản -->
         <TextView
@@ -124,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="Register"
-            android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/black"
             android:textColor="@color/white"
             android:padding="12dp"
             android:textSize="18sp"

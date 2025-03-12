@@ -32,8 +32,8 @@ public class RegisterActivity extends AppCompatActivity {
         cbRescueDriver = findViewById(R.id.cbRescueDriver);
         btnRegister = findViewById(R.id.btnRegister);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
-        database = dbHelper.getWritableDatabase();
+//        DatabaseHelper dbHelper = new DatabaseHelper(this);
+//        database = dbHelper.getWritableDatabase();
 
         btnRegister.setOnClickListener(v -> registerUser());
     }

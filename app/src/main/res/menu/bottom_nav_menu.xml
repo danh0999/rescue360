@@ -10,6 +10,6 @@
         android:title="Messages" />
     <item
         android:id="@+id/nav_profile"
-        android:icon="@mipmap/profile_lg"
+        android:icon="@drawable/profile_lg"
         android:title="Profile" />
 </menu>

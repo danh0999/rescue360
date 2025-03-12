@@ -18,7 +18,8 @@
             android:text="Đặt dịch vụ cứu hộ"
             android:textColor="@android:color/black"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
 
         <!-- Vị trí hiện tại -->
         <TextView
@@ -136,30 +137,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp"
-            android:text="Loại sự cố"
+            android:text="Loại sự cố khác"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/spinner_issue"
+        <EditText
+            android:id="@+id/edt_issue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="@android:color/white"
             android:padding="12dp"
-            android:spinnerMode="dropdown" />
+            android:hint="Nhập loại sự cố"
+            android:textSize="14sp"/>
+
+
 
         <!-- Button gọi cứu hộ -->
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:backgroundTint="#6A43A7"
+            android:backgroundTint="@color/black"
             android:padding="16dp"
             android:text="GỌI CỨU HỘ"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/black"
+            android:padding="16dp"
+            android:text="QUAY TRỞ VỀ"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            />
+
 
     </LinearLayout>
 </ScrollView>

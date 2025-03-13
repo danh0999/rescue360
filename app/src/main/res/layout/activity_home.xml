@@ -15,6 +15,7 @@
         android:layout_height="120dp"
         android:background="@drawable/home_bg"
         android:title="Trang chủ"
+        app:menu="@menu/main_menu"
         android:titleTextColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

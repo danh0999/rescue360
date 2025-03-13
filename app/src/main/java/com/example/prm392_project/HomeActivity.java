@@ -21,6 +21,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -36,9 +38,28 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);  // Ẩn tiêu đề mặc định
 
-
         // Kiểm tra quyền trước khi khởi tạo map
         checkLocationPermission();
+
+        // Xử lý chuyển trang bằng BottomNavigationView
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                return true; // Đang ở Home, không cần chuyển trang
+            } else if (itemId == R.id.nav_message) {
+                startActivity(new Intent(HomeActivity.this, ChatActivity.class));
+                overridePendingTransition(0, 0); // Không hiệu ứng chuyển trang
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
+        });
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+
     }
 
     @Override
@@ -59,7 +80,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void logout() {
         Toast.makeText(this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
-        // Xử lý logic đăng xuất tại đây (xóa session, chuyển về màn hình đăng nhập, v.v.)
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -73,7 +93,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
         } else {
-            // Nếu quyền đã cấp, khởi tạo map
             initMap();
         }
     }
@@ -89,12 +108,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Kích hoạt hiển thị vị trí hiện tại
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
 
-            // Đánh dấu một vị trí mẫu
             LatLng myLocation = new LatLng(10.762622, 106.660172); // Hồ Chí Minh
             mMap.addMarker(new MarkerOptions().position(myLocation).title("Vị trí mẫu"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
@@ -108,11 +124,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Quyền truy cập vị trí được cấp", Toast.LENGTH_SHORT).show();
-                initMap(); // Khởi tạo bản đồ sau khi quyền được cấp
+                initMap();
             } else {
                 Toast.makeText(this, "Quyền truy cập vị trí bị từ chối", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 }

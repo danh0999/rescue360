@@ -1,5 +1,6 @@
 package com.example.prm392_project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,15 +50,20 @@ public class ChatActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_home) {
-                Toast.makeText(ChatActivity.this, "Trang chủ", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ChatActivity.this, HomeActivity.class));
+                overridePendingTransition(0, 0);
                 return true;
+            } else if (itemId == R.id.nav_message) {
+                return true; // Đang ở Chat, không cần chuyển trang
             } else if (itemId == R.id.nav_profile) {
-                Toast.makeText(ChatActivity.this, "Hồ sơ", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ChatActivity.this, ProfileActivity.class));
+                overridePendingTransition(0, 0);
                 return true;
-            } else {
-                return false;
             }
+            return false;
         });
+        bottomNavigationView.setSelectedItemId(R.id.nav_message);
+
 
 
     }

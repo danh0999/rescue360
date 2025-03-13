@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +40,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Thiết lập Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);  // Ẩn tiêu đề mặc định
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Kiểm tra quyền trước khi khởi tạo map
         checkLocationPermission();
@@ -46,10 +50,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_home) {
-                return true; // Đang ở Home, không cần chuyển trang
+                return true;
             } else if (itemId == R.id.nav_message) {
                 startActivity(new Intent(HomeActivity.this, ChatActivity.class));
-                overridePendingTransition(0, 0); // Không hiệu ứng chuyển trang
+                overridePendingTransition(0, 0);
                 return true;
             } else if (itemId == R.id.nav_profile) {
                 startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
@@ -60,6 +64,34 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
 
+        // Xử lý click cho các dịch vụ
+        setupServiceClick(R.id.lnOutOfFuel);
+        setupServiceClick(R.id.imgOutOfFuel);
+        setupServiceClick(R.id.tvOutOfFuel);
+
+        setupServiceClick(R.id.lnFlatTire);
+        setupServiceClick(R.id.imgFlatTire);
+        setupServiceClick(R.id.tvFlatTire);
+
+        setupServiceClick(R.id.lnEngineFailure);
+        setupServiceClick(R.id.imgEngineFailure);
+        setupServiceClick(R.id.tvEngineFailure);
+
+        setupServiceClick(R.id.lnAccident);
+        setupServiceClick(R.id.imgAccident);
+        setupServiceClick(R.id.tvAccident);
+
+        setupServiceClick(R.id.lnOther);
+        setupServiceClick(R.id.imgOther);
+        setupServiceClick(R.id.tvOther);
+    }
+
+    private void setupServiceClick(int viewId) {
+        View view = findViewById(viewId);
+        view.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ServiceOrderActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -111,7 +143,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
 
-            LatLng myLocation = new LatLng(10.762622, 106.660172); // Hồ Chí Minh
+            LatLng myLocation = new LatLng(10.762622, 106.660172);
             mMap.addMarker(new MarkerOptions().position(myLocation).title("Vị trí mẫu"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
         }

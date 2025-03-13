@@ -5,6 +5,7 @@
     android:fillViewport="true">
 
     <LinearLayout
+        android:id="@+id/service_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -12,6 +13,7 @@
 
         <!-- Tiêu đề -->
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="12dp"
@@ -23,6 +25,7 @@
 
         <!-- Vị trí hiện tại -->
         <TextView
+            android:id="@+id/tv_current_location_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
@@ -32,17 +35,20 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/layout_current_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="8dp">
 
             <ImageView
+                android:id="@+id/img_location_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@android:drawable/ic_dialog_map" />
 
             <TextView
+                android:id="@+id/tv_input_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
@@ -52,6 +58,7 @@
 
         <!-- Thông tin chủ xe -->
         <TextView
+            android:id="@+id/tv_owner_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -62,6 +69,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/edt_owner_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -71,6 +79,7 @@
             android:textSize="14sp" />
 
         <EditText
+            android:id="@+id/edt_owner_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -81,6 +90,7 @@
 
         <!-- Thông tin xe -->
         <TextView
+            android:id="@+id/tv_vehicle_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="6dp"
@@ -90,20 +100,23 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/edt_vehicle_brand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="@android:color/white"
-            android:padding="12dp"
             android:hint="Nhập hãng xe"
+            android:padding="12dp"
             android:textSize="14sp" />
 
         <LinearLayout
+            android:id="@+id/layout_vehicle_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/edt_vehicle_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -114,6 +127,7 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/edt_vehicle_color"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -124,6 +138,7 @@
         </LinearLayout>
 
         <EditText
+            android:id="@+id/edt_vehicle_plate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -134,6 +149,7 @@
 
         <!-- Loại sự cố -->
         <TextView
+            android:id="@+id/tv_issue_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp"
@@ -151,10 +167,9 @@
             android:hint="Nhập loại sự cố"
             android:textSize="14sp"/>
 
-
-
         <!-- Button gọi cứu hộ -->
         <Button
+            android:id="@+id/btn_call_rescue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -163,9 +178,11 @@
             android:text="GỌI CỨU HỘ"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp"/>
+
+        <!-- Button quay trở về -->
         <Button
+            android:id="@+id/btn_go_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -174,9 +191,6 @@
             android:text="QUAY TRỞ VỀ"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
-            />
-
-
+            android:textSize="16sp"/>
     </LinearLayout>
 </ScrollView>

@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Dummy authentication, replace with actual logic
-        if (email.equals("user@example.com") && password.equals("123456")) {
+        if (email.equals("user@gmail.com") && password.equals("123456")) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();

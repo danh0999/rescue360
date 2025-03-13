@@ -13,15 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
-import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdminNavMenuActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -63,7 +59,7 @@ public class AdminNavMenuActivity extends AppCompatActivity {
                 if (menuItem.getItemId() == R.id.nav_dashboard) {
                     Toast.makeText(AdminNavMenuActivity.this, "Menu DashBoard", Toast.LENGTH_SHORT).show();
                 } else if (menuItem.getItemId() == R.id.nav_users) {
-                    startActivity(new Intent(AdminNavMenuActivity.this, AdminUserManagementActivity.class));
+                    startActivity(new Intent(AdminNavMenuActivity.this, UserManagementActivity.class));
                 } else if (menuItem.getItemId() == R.id.nav_settings) {
                     Toast.makeText(AdminNavMenuActivity.this, "Setting", Toast.LENGTH_SHORT).show();
                 }

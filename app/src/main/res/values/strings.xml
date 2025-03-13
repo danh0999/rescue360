@@ -2,12 +2,23 @@
     <string name="app_name">PRM392_project</string>
     <string name="api_key">AIzaSyCj8kGnGjNR-QrE-ndGnJofOlw-f-hM850</string>
 
-<!--    <string-array name="issue_types">-->
-<!--        <item>Hết xăng</item>-->
-<!--        <item>Thủng lốp</item>-->
-<!--        <item>Hỏng động cơ</item>-->
-<!--        <item>Không nổ máy</item>-->
-<!--        <item>Vấn đề khác</item>-->
-<!--    </string-array>-->
+    <!-- Thêm các dòng mới -->
+    <string name="dashboard_overview">Dashboard Overview</string>
+    <string name="active_requests">Active Requests</string>
+    <string name="available_staff">Available Staff</string>
+    <string name="completed_missions">Completed Missions</string>
 
+    <!-- Bổ sung các giá trị số để tránh hardcoded strings -->
+    <string name="active_requests_value">24</string>
+    <string name="available_staff_value">12</string>
+    <string name="completed_missions_value">156</string>
+
+    <!-- Danh sách các loại sự cố -->
+    <!--    <string-array name="issue_types">-->
+    <!--        <item>Hết xăng</item>-->
+    <!--        <item>Thủng lốp</item>-->
+    <!--        <item>Hỏng động cơ</item>-->
+    <!--        <item>Không nổ máy</item>-->
+    <!--        <item>Vấn đề khác</item>-->
+    <!--    </string-array>-->
 </resources>

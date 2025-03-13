@@ -1,5 +1,6 @@
 package com.example.prm392_project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,7 +63,7 @@ public class AdminNavMenuActivity extends AppCompatActivity {
                 if (menuItem.getItemId() == R.id.nav_dashboard) {
                     Toast.makeText(AdminNavMenuActivity.this, "Menu DashBoard", Toast.LENGTH_SHORT).show();
                 } else if (menuItem.getItemId() == R.id.nav_users) {
-                    Toast.makeText(AdminNavMenuActivity.this, "User Management", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(AdminNavMenuActivity.this, AdminUserManagementActivity.class));
                 } else if (menuItem.getItemId() == R.id.nav_settings) {
                     Toast.makeText(AdminNavMenuActivity.this, "Setting", Toast.LENGTH_SHORT).show();
                 }

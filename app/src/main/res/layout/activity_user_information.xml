@@ -32,6 +32,9 @@
     </LinearLayout>
 
     <!-- Nội dung chính -->
+
+    <!-- Thanh điều hướng dưới cùng -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -41,29 +44,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <!-- Avatar -->
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@android:drawable/ic_menu_gallery"
+                android:layout_marginBottom="16dp"
                 android:background="@android:color/darker_gray"
                 android:padding="16dp"
                 android:scaleType="centerInside"
-                android:layout_marginBottom="16dp" />
+                android:src="@android:drawable/ic_menu_gallery" />
 
             <!-- Họ tên -->
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edittext_border"
+                android:enabled="true"
+                android:padding="12dp"
                 android:text="Name"
                 android:textSize="16sp"
-                android:background="@android:color/white"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:enabled="false" />
+
+                />
 
             <!-- Số điện thoại -->
             <LinearLayout
@@ -71,64 +76,70 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_flag_vn" />
                 <EditText
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="+84"
-                    android:textSize="16sp"
-                    android:background="@android:color/white"
-                    android:padding="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/edittext_border"
                     android:enabled="false"
-                    android:layout_marginEnd="8dp" />
+                    android:padding="12dp"
+                    android:text="+84"
+                    android:textSize="16sp" />
+
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textSize="16sp"
-                    android:background="@android:color/white"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_border"
+                    android:enabled="true"
                     android:padding="12dp"
-                    android:enabled="false" />
+                    android:text=""
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <!-- Email -->
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="example@gmail.com"
-                android:textSize="16sp"
-                android:background="@android:color/white"
-                android:padding="12dp"
                 android:layout_marginTop="8dp"
-                android:enabled="false" />
+                android:background="@drawable/edittext_border"
+                android:enabled="true"
+                android:padding="12dp"
+                android:text="example@gmail.com"
+                android:textSize="16sp" />
 
             <!-- Giới tính -->
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nữ"
-                android:textSize="16sp"
-                android:background="@android:color/white"
-                android:padding="12dp"
                 android:layout_marginTop="8dp"
-                android:enabled="false" />
+                android:background="@drawable/edittext_border"
+                android:enabled="true"
+                android:padding="12dp"
+                android:text="Nữ"
+                android:textSize="16sp" />
 
             <!-- Nút đăng xuất -->
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/gradient_button"
+                android:elevation="4dp"
                 android:text="ĐĂNG XUẤT"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:background="@drawable/gradient_button"
-                android:layout_marginTop="24dp"
-                android:elevation="4dp" />
+                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 
-    <!-- Thanh điều hướng dưới cùng -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"

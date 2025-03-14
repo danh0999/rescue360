@@ -113,7 +113,7 @@
                 android:enabled="true"
                 android:padding="12dp"
                 android:text="example@gmail.com"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <!-- Giới tính -->
             <EditText

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <!-- Thanh tiêu đề -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#6A43A7"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_media_previous"
+            app:tint="@android:color/white"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thông tin cá nhân"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <!-- Nội dung chính -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Avatar -->
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:background="@android:color/darker_gray"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Họ tên -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="16sp"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:layout_marginBottom="8dp"
+                android:enabled="false" />
+
+            <!-- Số điện thoại -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="+84"
+                    android:textSize="16sp"
+                    android:background="@android:color/white"
+                    android:padding="12dp"
+                    android:enabled="false"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:background="@android:color/white"
+                    android:padding="12dp"
+                    android:enabled="false" />
+            </LinearLayout>
+
+            <!-- Email -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="example@gmail.com"
+                android:textSize="16sp"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:enabled="false" />
+
+            <!-- Giới tính -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nữ"
+                android:textSize="16sp"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:enabled="false" />
+
+            <!-- Nút đăng xuất -->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="ĐĂNG XUẤT"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:background="@drawable/gradient_button"
+                android:layout_marginTop="24dp"
+                android:elevation="4dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Thanh điều hướng dưới cùng -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#6A43A7"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="24dp"
+                android:src="@drawable/home_lg"
+
+                app:tint="@android:color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trang chủ"
+                android:textSize="12sp"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+
+                android:src="@drawable/message_lg"
+
+                app:tint="@android:color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tin nhắn"
+                android:textSize="12sp"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/profile_lg"
+                app:tint="@android:color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tài khoản"
+                android:textSize="12sp"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

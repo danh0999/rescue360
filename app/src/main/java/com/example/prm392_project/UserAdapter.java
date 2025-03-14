@@ -1,5 +1,6 @@
 package com.example.prm392_project;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+    private Context context;
     private List<User> userList;
 
-    public UserAdapter(List<User> userList) {
+    // Constructor nhận thêm Context
+    public UserAdapter(Context context, List<User> userList) {
+        this.context = context;
         this.userList = userList;
     }
 
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_user_management, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_user_management, parent, false);
         return new UserViewHolder(view);
     }
 

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -84,6 +85,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         setupServiceClick(R.id.lnOther);
         setupServiceClick(R.id.imgOther);
         setupServiceClick(R.id.tvOther);
+
+        // Chuyển trang sang ListFragment khi click nút (Giả sử nút có id btnViewRequests)
+        Button btnViewRequests = findViewById(R.id.btn_payment);
+        btnViewRequests.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, RequestListActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void setupServiceClick(int viewId) {
@@ -116,6 +124,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
 
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

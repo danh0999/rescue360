@@ -64,17 +64,17 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else if (email.equals("user@example.com") && password.equals("password")) {
-        if (email.equals("user@gmail.com") && password.equals("123456")) {
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
+
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
             Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
         }
+        }
 
-    }
 
-    private void sendOTP() {
+    private void sendOTP () {
         String phone = etPhone.getText().toString().trim();
 
         if (TextUtils.isEmpty(phone)) {

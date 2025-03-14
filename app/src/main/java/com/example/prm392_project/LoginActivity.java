@@ -59,13 +59,18 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Dummy authentication, replace with actual logic
-        if (email.equals("user@example.com") && password.equals("password")) {
+        if (email.equals("admin@example.com") && password.equals("123456")) {
+            Intent intent = new Intent(LoginActivity.this, UserManagementActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (email.equals("user@example.com") && password.equals("password")) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
         } else {
             Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private void sendOTP() {

@@ -33,14 +33,14 @@
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/orange"
         android:text="Login" />
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/orange"
         android:text="Register" />
 
     <TextView
@@ -63,7 +63,7 @@
         android:id="@+id/btnSendOTP"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/orange"
         android:text="Send OTP" />
 
 </LinearLayout>

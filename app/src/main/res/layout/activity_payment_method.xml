@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray_dark"
+        android:background="@color/orange"
         android:title="Thanh toán bằng"
         android:titleTextColor="@android:color/white"
         app:navigationIcon="@drawable/back_lg" />

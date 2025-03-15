@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Trở về Home"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/orange"
         android:textColor="@android:color/white"
         android:layout_margin="16dp"/>
 

@@ -152,7 +152,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
 
-            LatLng myLocation = new LatLng(10.762622, 106.660172);
+            LatLng myLocation = new LatLng(10.875073, 106.800732);
             mMap.addMarker(new MarkerOptions().position(myLocation).title("Vị trí mẫu"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
         }

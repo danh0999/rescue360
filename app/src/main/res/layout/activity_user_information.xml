@@ -52,10 +52,10 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginBottom="16dp"
-                android:background="@android:color/darker_gray"
+                android:background="@drawable/border_linear"
                 android:padding="16dp"
                 android:scaleType="centerInside"
-                android:src="@android:drawable/ic_menu_gallery" />
+                android:src="@drawable/profile_lg" />
 
             <!-- Họ tên -->
             <EditText

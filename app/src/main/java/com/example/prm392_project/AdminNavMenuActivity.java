@@ -2,6 +2,7 @@ package com.example.prm392_project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -35,12 +36,7 @@ public class AdminNavMenuActivity extends AppCompatActivity {
         btnMenu = findViewById(R.id.btnMenu);
         recyclerView = findViewById(R.id.recyclerView);
 
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showMenu();
-            }
-        });
+        btnMenu.setOnClickListener(view -> showMenu());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -50,24 +46,37 @@ public class AdminNavMenuActivity extends AppCompatActivity {
     }
 
     private void showMenu() {
-        PopupMenu popupMenu = new PopupMenu(AdminNavMenuActivity.this, btnMenu);
+        PopupMenu popupMenu = new PopupMenu(this, btnMenu);
         popupMenu.getMenuInflater().inflate(R.menu.admin_nav_menu, popupMenu.getMenu());
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                if (menuItem.getItemId() == R.id.nav_dashboard) {
-                    Toast.makeText(AdminNavMenuActivity.this, "Menu DashBoard", Toast.LENGTH_SHORT).show();
-                } else if (menuItem.getItemId() == R.id.nav_users) {
-                    startActivity(new Intent(AdminNavMenuActivity.this, UserManagementActivity.class));
-                } else if (menuItem.getItemId() == R.id.nav_settings) {
-                    Toast.makeText(AdminNavMenuActivity.this, "Setting", Toast.LENGTH_SHORT).show();
-                }
-                return true;
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            int itemId = menuItem.getItemId();
+
+            if (itemId == R.id.nav_dashboard) {
+                Toast.makeText(this, "Menu Dashboard", Toast.LENGTH_SHORT).show();
+            } else if (itemId == R.id.nav_users) {
+                startActivity(new Intent(this, UserManagementActivity.class));
+            } else if (itemId == R.id.nav_settings) {
+                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+            } else if (itemId == R.id.nav_logout) {
+                logout();
+            } else {
+                return false;
             }
+
+            return true;
         });
 
         popupMenu.show();
+    }
+
+
+    private void logout() {
+        Toast.makeText(this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override

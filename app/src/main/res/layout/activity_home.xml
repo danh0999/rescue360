@@ -240,7 +240,7 @@
 <!--     Bottom Navigation-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_home"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@drawable/footer_background"
         app:itemIconTint="@color/selector_nav_item_color"

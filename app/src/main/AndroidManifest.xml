@@ -24,6 +24,8 @@
         <activity android:name=".ServiceOrderActivity" />
         <activity android:name=".PaymentMethodActivity" />
         <activity android:name=".RequestListActivity"/>
+        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".AdminDashboardActivity"/>
         <activity android:name=".ChatActivity"></activity>
         <activity
             android:name=".MainActivity"

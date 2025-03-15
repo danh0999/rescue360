@@ -1,4 +1,4 @@
-package com.example.prm392_project;
+package com.example.prm392_project.ui.activities;
 
 import android.content.Intent;
 import android.view.MenuInflater;
@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.Arrays;
 import java.util.List;
+
+import com.example.prm392_project.ui.adapters.DashboardAdapter;
 import com.example.prm392_project.R;
 
 public class AdminDashboardActivity extends AppCompatActivity {

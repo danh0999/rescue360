@@ -1,4 +1,4 @@
-package com.example.prm392_project;
+package com.example.prm392_project.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.prm392_project.R;
+import com.example.prm392_project.Request;
+import com.example.prm392_project.ui.activities.HomeActivity;
+import com.example.prm392_project.ui.activities.PaymentMethodActivity;
+import com.example.prm392_project.ui.adapters.RequestAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

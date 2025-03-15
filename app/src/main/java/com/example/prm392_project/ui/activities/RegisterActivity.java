@@ -1,4 +1,4 @@
-package com.example.prm392_project;
+package com.example.prm392_project.ui.activities;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.prm392_project.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

@@ -1,8 +1,7 @@
-package com.example.prm392_project;
+package com.example.prm392_project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
@@ -11,6 +10,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.prm392_project.R;
+import com.example.prm392_project.User;
+import com.example.prm392_project.ui.adapters.UserAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

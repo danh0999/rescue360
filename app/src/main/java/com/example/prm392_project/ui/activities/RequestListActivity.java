@@ -1,8 +1,10 @@
-package com.example.prm392_project;
+package com.example.prm392_project.ui.activities;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
+
+import com.example.prm392_project.R;
+import com.example.prm392_project.ui.fragments.RequestListFragment;
 
 public class RequestListActivity extends AppCompatActivity {
     @Override

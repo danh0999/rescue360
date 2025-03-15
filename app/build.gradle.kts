@@ -66,4 +66,6 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.44")
     annotationProcessor("com.google.dagger:hilt-compiler:2.44")
+
+    implementation("androidx.security:security-crypto:1.0.0")
 }

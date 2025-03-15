@@ -1,4 +1,4 @@
-package com.example.prm392_project.data.external.services;
+package com.example.prm392_project.data.external.interfaces;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

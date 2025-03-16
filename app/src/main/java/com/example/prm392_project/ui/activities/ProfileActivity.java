@@ -13,16 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.prm392_project.R;
 import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.response.UpdateProfileReq;
 import com.example.prm392_project.data.external.services.AuthSvc;
 import com.example.prm392_project.data.models.User;
+import com.example.prm392_project.utils.TokenManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private EditText edtName, edtPhone, edtEmail;
-    private Button btnLogout;
+    private Button btnLogout, btnUpdate;
 
     private AuthSvc authSvc;
+    private TokenManager tokenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +36,10 @@ public class ProfileActivity extends AppCompatActivity {
         edtPhone = findViewById(R.id.userPhoneNumber);
         edtEmail = findViewById(R.id.userEmail);
         btnLogout = findViewById(R.id.btnLogout);
+        btnUpdate = findViewById(R.id.btnUpdate);
 
         authSvc = new AuthSvc(ProfileActivity.this);
+        tokenManager = new TokenManager(ProfileActivity.this);
 
         loadUserData();
 
@@ -42,6 +47,34 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logoutUser();
+            }
+        });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = edtName.getText().toString();
+                String phone = edtPhone.getText().toString();
+                String email = edtEmail.getText().toString();
+                if (name.isEmpty() || phone.isEmpty() || email.isEmpty()) {
+                    Toast.makeText(ProfileActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                UpdateProfileReq req = new UpdateProfileReq(name, phone, "");
+
+                authSvc.updateProfile(req, new ApiCallback<BaseResp>() {
+                    @Override
+                    public void onSuccess(BaseResp response) {
+                        Toast.makeText(ProfileActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                        loadUserData();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Log.e("ProfileActivity", "Failed to update user profile: " + message);
+                        Toast.makeText(ProfileActivity.this, "Cập nhật thông tin thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -79,13 +112,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 Log.e("ProfileActivity", "Failed to get user profile: " + message);
-                Toast.makeText(ProfileActivity.this, "Failed to get user profile", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     // Logout
     private void logoutUser() {
+        tokenManager.clearToken();
         Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -15,16 +15,19 @@ import com.example.prm392_project.R;
 import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.services.HealthSvc;
+import com.example.prm392_project.utils.TokenManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private HealthSvc healthSvc;
+    private TokenManager tokenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         healthSvc = new HealthSvc(this);
+        tokenManager = new TokenManager(this);
 
         healthSvc.healthCheck(new ApiCallback<BaseResp>() {
             @Override
@@ -38,10 +41,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
+        String token = tokenManager.getToken();
 
-        if (isLoggedIn) {
+        if (token != null) {
             startActivity(new Intent(this, HomeActivity.class));
         } else {
             startActivity(new Intent(this, LoginActivity.class));

@@ -2,6 +2,8 @@ package com.example.prm392_project.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 import java.io.IOException;
@@ -30,6 +32,7 @@ public class TokenManager {
 
     // Save token
     public void saveToken(String token) {
+        Log.i("TokenManager", "Saving token: " + token);
         sharedPreferences.edit().putString(TOKEN_KEY, token).apply();
     }
 

@@ -10,6 +10,7 @@ import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.response.LoginReq;
 import com.example.prm392_project.data.external.response.LoginResp;
 import com.example.prm392_project.data.external.response.RegisterReq;
+import com.example.prm392_project.data.external.response.UpdateProfileReq;
 import com.example.prm392_project.data.models.User;
 import com.example.prm392_project.utils.TokenManager;
 
@@ -106,6 +107,25 @@ public class AuthSvc {
 
             @Override
             public void onFailure(Call<BaseResp<User>> call, Throwable t) {
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    public void updateProfile(UpdateProfileReq user, ApiCallback<BaseResp> callback) {
+        Call<BaseResp> call = authSvc.updateProfile(user);
+        call.enqueue(new Callback<BaseResp>() {
+            @Override
+            public void onResponse(Call<BaseResp> call, Response<BaseResp> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Update profile failed: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResp> call, Throwable t) {
                 callback.onError("Network error: " + t.getMessage());
             }
         });

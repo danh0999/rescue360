@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.data.external.interfaces.ApiCallback;
+import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.services.AuthSvc;
+import com.example.prm392_project.data.models.User;
+import com.example.prm392_project.utils.TokenManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,10 +37,16 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private GoogleMap mMap;
 
+    private AuthSvc authSvc;
+    private TokenManager tokenManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        authSvc = new AuthSvc(HomeActivity.this);
+        tokenManager = new TokenManager(HomeActivity.this);
 
         // Thiết lập Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -43,6 +55,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Kiểm tra quyền trước khi khởi tạo map
         checkLocationPermission();
+
+        loadUserData();
 
         // Xử lý chuyển trang bằng BottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_home);
@@ -117,6 +131,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void logout() {
+        tokenManager.clearToken();
         Toast.makeText(this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -168,5 +183,23 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(this, "Quyền truy cập vị trí bị từ chối", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void loadUserData() {
+        authSvc.getProfile(new ApiCallback<BaseResp<User>>() {
+            @Override
+            public void onSuccess(BaseResp<User> response) {
+                User user = response.getData();
+                if (user != null) {
+                    Log.d("HomeActivity", "User: " + user);
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.e("ProfileActivity", "Failed to get user profile: " + message);
+                Toast.makeText(HomeActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

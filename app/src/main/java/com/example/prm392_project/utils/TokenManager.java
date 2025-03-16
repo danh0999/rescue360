@@ -2,6 +2,8 @@ package com.example.prm392_project.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 import java.io.IOException;
@@ -10,7 +12,6 @@ import java.security.GeneralSecurityException;
 public class TokenManager {
     private static final String PREF_NAME = "rescue_secure_prefs";
     private static final String TOKEN_KEY = "rescue_access_token";
-    private static final String IS_ADMIN = "is_admin";
     private SharedPreferences sharedPreferences;
 
     public TokenManager(Context context) {
@@ -31,6 +32,7 @@ public class TokenManager {
 
     // Save token
     public void saveToken(String token) {
+        Log.i("TokenManager", "Saving token: " + token);
         sharedPreferences.edit().putString(TOKEN_KEY, token).apply();
     }
 
@@ -42,15 +44,5 @@ public class TokenManager {
     // Clear token (logout)
     public void clearToken() {
         sharedPreferences.edit().remove(TOKEN_KEY).apply();
-    }
-
-    // Save admin status
-    public void saveAdminStatus(boolean isAdmin) {
-        sharedPreferences.edit().putBoolean(IS_ADMIN, isAdmin).apply();
-    }
-
-    // Retrieve admin status
-    public boolean isAdmin() {
-        return sharedPreferences.getBoolean(IS_ADMIN, false);
     }
 }

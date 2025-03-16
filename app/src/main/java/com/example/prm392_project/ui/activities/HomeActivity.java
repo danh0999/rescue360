@@ -192,7 +192,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 User user = response.getData();
                 if (user != null) {
                     Log.d("HomeActivity", "User: " + user);
-                    tokenManager.saveAdminStatus(user.isAdmin());
                 }
             }
 

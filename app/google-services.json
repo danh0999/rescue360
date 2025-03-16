@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "1022887170143",
+    "project_id": "vn-history-chat",
+    "storage_bucket": "vn-history-chat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022887170143:android:a9d6368e635c9786c58bea",
+        "android_client_info": {
+          "package_name": "com.app.hoho_rental"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022887170143-mnsdg3q98sv3m15rai09q9pvg0e6ghih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.hoho_rental",
+            "certificate_hash": "6767b8888d03ad02635b16b4949aa0dfb9c978f2"
+          }
+        },
+        {
+          "client_id": "1022887170143-jse2fio3pomlqp68cepe6kn7biifnrhu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwSp2dvQ4WqwQeMSCysSGjYmxRLHiL6i8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022887170143-jse2fio3pomlqp68cepe6kn7biifnrhu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1022887170143-bch9hcib7aqkrf96bn96kumqn14p1mr2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.vietnamHistory"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022887170143:android:de7db19dd967b9bcc58bea",
+        "android_client_info": {
+          "package_name": "com.example.prm392_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022887170143-jse2fio3pomlqp68cepe6kn7biifnrhu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwSp2dvQ4WqwQeMSCysSGjYmxRLHiL6i8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022887170143-jse2fio3pomlqp68cepe6kn7biifnrhu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1022887170143-bch9hcib7aqkrf96bn96kumqn14p1mr2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.vietnamHistory"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

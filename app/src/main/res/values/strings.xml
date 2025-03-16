@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PRM392_project</string>
     <string name="api_key">AIzaSyCj8kGnGjNR-QrE-ndGnJofOlw-f-hM850</string>
+    <string name="default_web_client_id">1046719230711-i5crn120a7ap1d080q4k7otpnr1vjoif.apps.googleusercontent.com</string>
 
     <!-- Thêm các dòng mới -->
     <string name="dashboard_overview">Dashboard Overview</string>
@@ -12,6 +13,8 @@
     <string name="active_requests_value">24</string>
     <string name="available_staff_value">12</string>
     <string name="completed_missions_value">156</string>
+
+
 
     <!-- Danh sách các loại sự cố -->
     <!--    <string-array name="issue_types">-->

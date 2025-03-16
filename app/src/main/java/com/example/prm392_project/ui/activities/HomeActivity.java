@@ -78,25 +78,25 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
 
         // Xử lý click cho các dịch vụ
-        setupServiceClick(R.id.lnOutOfFuel);
-        setupServiceClick(R.id.imgOutOfFuel);
-        setupServiceClick(R.id.tvOutOfFuel);
+        setupServiceClick(R.id.lnOutOfFuel, "Hết xăng");
+        setupServiceClick(R.id.imgOutOfFuel, "Hết xăng");
+        setupServiceClick(R.id.tvOutOfFuel, "Hết xăng");
 
-        setupServiceClick(R.id.lnFlatTire);
-        setupServiceClick(R.id.imgFlatTire);
-        setupServiceClick(R.id.tvFlatTire);
+        setupServiceClick(R.id.lnFlatTire, "Thủng lốp");
+        setupServiceClick(R.id.imgFlatTire, "Thủng lốp");
+        setupServiceClick(R.id.tvFlatTire, "Thủng lốp");
 
-        setupServiceClick(R.id.lnEngineFailure);
-        setupServiceClick(R.id.imgEngineFailure);
-        setupServiceClick(R.id.tvEngineFailure);
+        setupServiceClick(R.id.lnEngineFailure, "Hỏng máy");
+        setupServiceClick(R.id.imgEngineFailure, "Hỏng máy");
+        setupServiceClick(R.id.tvEngineFailure, "Hỏng máy");
 
-        setupServiceClick(R.id.lnAccident);
-        setupServiceClick(R.id.imgAccident);
-        setupServiceClick(R.id.tvAccident);
+        setupServiceClick(R.id.lnAccident, "Tai nạn");
+        setupServiceClick(R.id.imgAccident, "Tai nạn");
+        setupServiceClick(R.id.tvAccident, "Tai nạn");
 
-        setupServiceClick(R.id.lnOther);
-        setupServiceClick(R.id.imgOther);
-        setupServiceClick(R.id.tvOther);
+        setupServiceClick(R.id.lnOther, "Khác");
+        setupServiceClick(R.id.imgOther, "Khác");
+        setupServiceClick(R.id.tvOther, "Khác");
 
         // Chuyển trang sang ListFragment khi click nút (Giả sử nút có id btnViewRequests)
         Button btnViewRequests = findViewById(R.id.btn_payment);
@@ -106,10 +106,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    private void setupServiceClick(int viewId) {
+    private void setupServiceClick(int viewId, String title) {
         View view = findViewById(viewId);
         view.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, ServiceOrderActivity.class);
+            intent.putExtra("RESCUE_TITLE", title);
             startActivity(intent);
         });
     }

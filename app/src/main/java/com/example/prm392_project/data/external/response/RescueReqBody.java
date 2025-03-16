@@ -5,13 +5,13 @@ import com.example.prm392_project.data.models.RescueReqMetadata;
 public class RescueReqBody {
     private String title;
     private String description;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
     private String address;
     private String contact;
     private RescueReqMetadata metadata;
 
-    public RescueReqBody(String title, String description, float latitude, float longitude, String address, String contact, RescueReqMetadata metadata) {
+    public RescueReqBody(String title, String description, double latitude, double longitude, String address, String contact, RescueReqMetadata metadata) {
         this.title = title;
         this.description = description;
         this.latitude = latitude;
@@ -37,7 +37,7 @@ public class RescueReqBody {
         this.description = description;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -45,7 +45,7 @@ public class RescueReqBody {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 

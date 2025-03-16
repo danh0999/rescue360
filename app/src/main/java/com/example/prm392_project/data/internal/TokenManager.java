@@ -1,4 +1,4 @@
-package com.example.prm392_project.utils;
+package com.example.prm392_project.data.internal;
 
 import android.content.Context;
 import android.content.SharedPreferences;

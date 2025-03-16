@@ -12,7 +12,7 @@ import com.example.prm392_project.data.external.response.LoginResp;
 import com.example.prm392_project.data.external.response.RegisterReq;
 import com.example.prm392_project.data.external.response.UpdateProfileReq;
 import com.example.prm392_project.data.models.User;
-import com.example.prm392_project.utils.TokenManager;
+import com.example.prm392_project.data.internal.TokenManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;

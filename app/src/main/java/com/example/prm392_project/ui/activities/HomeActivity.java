@@ -22,7 +22,7 @@ import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.services.AuthSvc;
 import com.example.prm392_project.data.models.User;
-import com.example.prm392_project.utils.TokenManager;
+import com.example.prm392_project.data.internal.TokenManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -192,6 +192,12 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 User user = response.getData();
                 if (user != null) {
                     Log.d("HomeActivity", "User: " + user);
+
+                    // check if admin then navigate to admin activity
+                    if (user.isAdmin()) {
+                        Intent intent = new Intent(HomeActivity.this, AdminDashboardActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
 

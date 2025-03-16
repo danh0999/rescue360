@@ -50,7 +50,29 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/profile_lg" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/userEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_border"
+                android:enabled="false"
+                android:padding="12dp"
+                android:textSize="16sp" />
+
             <!-- Họ tên -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Họ tên"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp" />
             <EditText
                 android:id="@+id/userName"
                 android:layout_width="match_parent"
@@ -61,6 +83,12 @@
                 android:padding="12dp"
                 android:textSize="16sp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Số điện thoại"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,28 +112,23 @@
                     android:text="+84"
                     android:textSize="16sp" />
 
-                <EditText
-                    android:id="@+id/userPhoneNumber"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/edittext_border"
-                    android:enabled="true"
-                    android:padding="12dp"
-                    android:text=""
-                    android:textSize="16sp" />
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/userPhoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_border"
+                        android:enabled="true"
+                        android:padding="12dp"
+                        android:text=""
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
-
-            <EditText
-                android:id="@+id/userEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edittext_border"
-                android:enabled="true"
-                android:padding="12dp"
-                android:textSize="16sp" />
-
 
             <Button
                 android:id="@+id/btnUpdate"

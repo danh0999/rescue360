@@ -1,7 +1,6 @@
 package com.example.prm392_project.ui.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -15,7 +14,7 @@ import com.example.prm392_project.R;
 import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.services.HealthSvc;
-import com.example.prm392_project.utils.TokenManager;
+import com.example.prm392_project.data.internal.TokenManager;
 
 public class MainActivity extends AppCompatActivity {
 

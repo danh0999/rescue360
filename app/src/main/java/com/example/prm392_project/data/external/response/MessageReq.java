@@ -7,6 +7,11 @@ public class MessageReq {
     private String conversationId;
     private MessageMetadata metadata;
 
+    public MessageReq(String content, String conversationId) {
+        this.content = content;
+        this.conversationId = conversationId;
+    }
+
     public MessageReq(String content, String conversationId, MessageMetadata metadata) {
         this.content = content;
         this.conversationId = conversationId;

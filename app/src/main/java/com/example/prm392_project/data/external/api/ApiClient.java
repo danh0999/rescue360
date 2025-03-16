@@ -5,7 +5,7 @@ import static com.example.prm392_project.constants.ApiConst.BASE_URL;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.prm392_project.utils.TokenManager;
+import com.example.prm392_project.data.internal.TokenManager;
 
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -23,13 +23,14 @@ public class ApiClient {
             TokenManager tokenManager = new TokenManager(context);
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            String token = tokenManager.getToken();
+
 
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
             clientBuilder.addInterceptor(loggingInterceptor);
             // Add Authorization header if token exists
             clientBuilder.addInterceptor(chain -> {
                 Request.Builder requestBuilder = chain.request().newBuilder();
+                String token = tokenManager.getToken();
                 if (token != null) {
                     requestBuilder.addHeader("Authorization", "Bearer " + token);
                 }

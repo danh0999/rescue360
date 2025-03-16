@@ -9,11 +9,11 @@ public class RescueReq {
     private String address;
     private String contact;
     private RescueReqMetadata metadata;
-    private String status;
+    private int status;
     private User createdUser;
     private String createdAt;
 
-    public RescueReq(String id, String createdBy, String title, String description, double latitude, double longitude, String address, String contact, RescueReqMetadata metadata, String status, User createdUser, String createdAt) {
+    public RescueReq(String id, String createdBy, String title, String description, double latitude, double longitude, String address, String contact, RescueReqMetadata metadata, int status, User createdUser, String createdAt) {
         this.id = id;
         this.createdBy = createdBy;
         this.title = title;
@@ -64,7 +64,7 @@ public class RescueReq {
         return metadata;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 

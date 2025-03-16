@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.example.prm392_project.ui.adapters.DashboardAdapter;
 import com.example.prm392_project.R;
+import com.example.prm392_project.data.internal.TokenManager;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
@@ -43,7 +44,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
         setupRecyclerView(rvAvailableStaff, Arrays.asList("Staff 1", "Staff 2"));
         setupRecyclerView(rvCompletedMissions, Arrays.asList("Mission 1", "Mission 2"));
 
-        cardActiveRequests.setOnClickListener(v -> toggleRecyclerView(rvActiveRequests));
+        cardActiveRequests.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RequestListActivity.class);
+            startActivity(intent);
+        });
         cardAvailableStaff.setOnClickListener(v -> toggleRecyclerView(rvAvailableStaff));
         cardCompletedMissions.setOnClickListener(v -> toggleRecyclerView(rvCompletedMissions));
 
@@ -90,6 +94,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
 //        return true;
 
         } else if (id == R.id.nav_logout) {
+            TokenManager tokenManager = new TokenManager(this);
+            tokenManager.clearToken();
+
             Toast.makeText(this, "Logging out...", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, LoginActivity.class));
             finish(); // Đảm bảo quay lại login

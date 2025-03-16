@@ -1,196 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <LinearLayout
-        android:id="@+id/service_order"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- Tiêu đề -->
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="12dp"
-            android:text="Đặt dịch vụ cứu hộ"
-            android:textColor="@android:color/black"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"/>
-
-        <!-- Vị trí hiện tại -->
-        <TextView
-            android:id="@+id/tv_current_location_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="12dp"
-            android:text="Vị trí hiện tại của bạn"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
+        android:layout_height="match_parent"
+        android:fillViewport="true">
         <LinearLayout
-            android:id="@+id/layout_current_location"
+            android:id="@+id/service_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <ImageView
-                android:id="@+id/img_location_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_dialog_map" />
-
+            <!-- Tiêu đề -->
             <TextView
-                android:id="@+id/tv_input_location"
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:text="Nhập vị trí của bạn..."
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:paddingBottom="12dp"
+                android:text="Đặt dịch vụ cứu hộ"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
 
-        <!-- Thông tin chủ xe -->
-        <TextView
-            android:id="@+id/tv_owner_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="6dp"
-            android:text="Thông tin chủ xe"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            <!-- Vị trí hiện tại -->
+            <TextView
+                android:id="@+id/tv_current_location_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:text="Vị trí hiện tại của bạn"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edt_owner_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:background="@android:color/white"
-            android:padding="12dp"
-            android:hint="Nhập họ và tên"
-            android:textSize="14sp" />
+            <!-- Map here -->
 
-        <EditText
-            android:id="@+id/edt_owner_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:background="@android:color/white"
-            android:padding="12dp"
-            android:hint="Nhập số điện thoại"
-            android:textSize="14sp" />
-
-        <!-- Thông tin xe -->
-        <TextView
-            android:id="@+id/tv_vehicle_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="6dp"
-            android:text="Thông tin xe"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edt_vehicle_brand"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:background="@android:color/white"
-            android:hint="Nhập hãng xe"
-            android:padding="12dp"
-            android:textSize="14sp" />
-
-        <LinearLayout
-            android:id="@+id/layout_vehicle_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            <!-- Thông tin cơ bản -->
+            <TextView
+                android:id="@+id/tv_owner_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="6dp"
+                android:text="Thông tin cần thiết"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edt_vehicle_code"
-                android:layout_width="0dp"
+                android:id="@+id/editDescription"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
+                android:layout_marginBottom="12dp"
                 android:background="@android:color/white"
                 android:padding="12dp"
-                android:hint="Mã xe"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:hint="Nhập mô tả sự cố"
+                android:textSize="14sp"
+                android:gravity="top"/>
+
+            <EditText
+                android:id="@+id/editPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:hint="Nhập số điện thoại"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/edt_vehicle_color"
-                android:layout_width="0dp"
+                android:id="@+id/editAddress"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginBottom="12dp"
                 android:background="@android:color/white"
                 android:padding="12dp"
-                android:hint="Màu xe"
+                android:hint="Nhập địa chỉ hiện tại"
                 android:textSize="14sp" />
+
+            <!-- Thông tin xe -->
+            <TextView
+                android:id="@+id/tv_vehicle_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:text="Thông tin xe"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editVehicleBrand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:hint="Nhập hãng xe"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/editVehicleType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:hint="Nhập loại xe"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/editVehicleInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:hint="Nhập thông tin xe( màu, biển số,..)"
+                android:textSize="14sp" />
+
+            <!-- Button gọi cứu hộ -->
+            <Button
+                android:id="@+id/btnCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/orange"
+                android:padding="16dp"
+                android:text="GỌI CỨU HỘ"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
+
+            <!-- Button quay trở về -->
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/gray_dark"
+                android:padding="16dp"
+                android:text="QUAY TRỞ VỀ"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
         </LinearLayout>
+    </ScrollView>
 
-        <EditText
-            android:id="@+id/edt_vehicle_plate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:background="@android:color/white"
-            android:padding="12dp"
-            android:hint="Nhập biển số xe"
-            android:textSize="14sp" />
-
-        <!-- Loại sự cố -->
-        <TextView
-            android:id="@+id/tv_issue_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:text="Loại sự cố khác"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edt_issue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:background="@android:color/white"
-            android:padding="12dp"
-            android:hint="Nhập loại sự cố"
-            android:textSize="14sp"/>
-
-        <!-- Button gọi cứu hộ -->
-        <Button
-            android:id="@+id/btn_call_rescue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/orange"
-            android:padding="16dp"
-            android:text="GỌI CỨU HỘ"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"/>
-
-        <!-- Button quay trở về -->
-        <Button
-            android:id="@+id/btn_go_back"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/orange"
-            android:padding="16dp"
-            android:text="QUAY TRỞ VỀ"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"/>
-    </LinearLayout>
-</ScrollView>
+<ProgressBar
+    android:id="@+id/progressBar"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:visibility="gone" />
+</FrameLayout>

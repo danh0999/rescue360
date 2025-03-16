@@ -16,7 +16,7 @@ import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.response.UpdateProfileReq;
 import com.example.prm392_project.data.external.services.AuthSvc;
 import com.example.prm392_project.data.models.User;
-import com.example.prm392_project.utils.TokenManager;
+import com.example.prm392_project.data.internal.TokenManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfileActivity extends AppCompatActivity {

@@ -6,36 +6,57 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.data.external.interfaces.ApiCallback;
+import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.response.RescueReqBody;
+import com.example.prm392_project.data.external.services.RescueSvc;
+import com.example.prm392_project.data.models.RescueReq;
+import com.example.prm392_project.data.models.RescueReqMetadata;
+import com.example.prm392_project.utils.StringUtils;
 
 public class ServiceOrderActivity extends AppCompatActivity {
 
-    private EditText edtName, edtPhone, edtCarBrand, edtCarCode, edtCarColor, edtLicensePlate, edtIssue;
-    private Button btnCallRescue, btnGoBack;
+    private EditText editDescription, editPhone, editAddress, editVehicleBrand, editVehicleType, editVehicleInfo;
+    private Button btnCall, btnBack;
+    private ProgressBar progressBar;
+    private String rescueTitle;
+    private RescueSvc rescueSvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_order);
 
-        // Ánh xạ các view
-        edtName = findViewById(R.id.edt_owner_name);
-        edtPhone = findViewById(R.id.edt_owner_phone);
-        edtCarBrand = findViewById(R.id.edt_vehicle_brand);
-        edtCarCode = findViewById(R.id.edt_vehicle_code);
-        edtCarColor = findViewById(R.id.edt_vehicle_color);
-        edtLicensePlate = findViewById(R.id.edt_vehicle_plate);
-        edtIssue = findViewById(R.id.edt_issue);
+        rescueTitle = StringUtils.decodeUnicode(getIntent().getStringExtra("RESCUE_TITLE"));
+        if (rescueTitle.isEmpty()) {
+            rescueTitle = "Yêu cầu cứu hộ";
+        }
 
-        btnCallRescue = findViewById(R.id.btn_call_rescue);
-        btnGoBack = findViewById(R.id.btn_go_back);
+        TextView tvTitle = findViewById(R.id.tv_title);
+        tvTitle.setText(rescueTitle);
+
+        // Ánh xạ các view
+        editDescription = findViewById(R.id.editDescription);
+        editPhone = findViewById(R.id.editPhone);
+        editAddress = findViewById(R.id.editAddress);
+        editVehicleBrand = findViewById(R.id.editVehicleBrand);
+        editVehicleType = findViewById(R.id.editVehicleType);
+        editVehicleInfo = findViewById(R.id.editVehicleInfo);
+        btnCall = findViewById(R.id.btnCall);
+        btnBack = findViewById(R.id.btnBack);
+        progressBar = findViewById(R.id.progressBar);
+
+        rescueSvc = new RescueSvc(ServiceOrderActivity.this);
 
         // Xử lý khi nhấn nút gọi cứu hộ
-        btnCallRescue.setOnClickListener(new View.OnClickListener() {
+        btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleRescueRequest();
@@ -43,7 +64,7 @@ public class ServiceOrderActivity extends AppCompatActivity {
         });
 
         // Xử lý khi nhấn nút quay trở về
-        btnGoBack.setOnClickListener(new View.OnClickListener() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Chuyển về trang Home
@@ -58,66 +79,76 @@ public class ServiceOrderActivity extends AppCompatActivity {
 
     private void handleRescueRequest() {
         // Lấy dữ liệu từ EditText
-        String name = edtName.getText().toString().trim();
-        String phone = edtPhone.getText().toString().trim();
-        String carBrand = edtCarBrand.getText().toString().trim();
-        String carCode = edtCarCode.getText().toString().trim();
-        String carColor = edtCarColor.getText().toString().trim();
-        String licensePlate = edtLicensePlate.getText().toString().trim();
-        String issue = edtIssue.getText().toString().trim();
+        String description = editDescription.getText().toString();
+        String phone = editPhone.getText().toString();
+        String address = editAddress.getText().toString();
+        String vehicleBrand = editVehicleBrand.getText().toString();
+        String vehicleType = editVehicleType.getText().toString();
+        String vehicleInfo = editVehicleInfo.getText().toString();
 
-        // Kiểm tra dữ liệu đầu vào
-        if (TextUtils.isEmpty(name)) {
-            edtName.setError("Vui lòng nhập họ và tên");
+        // Kiểm tra dữ liệu nhập vào
+        if (TextUtils.isEmpty(description)) {
+            editDescription.setError("Vui lòng nhập mô tả vấn đề");
             return;
         }
+
         if (TextUtils.isEmpty(phone)) {
-            edtPhone.setError("Vui lòng nhập số điện thoại");
-            return;
-        }
-        if (phone.length() != 10) {
-            edtPhone.setError("Số điện thoại phải đủ 10 số");
-            return;
-        }
-        if (TextUtils.isEmpty(carBrand)) {
-            edtCarBrand.setError("Vui lòng nhập hãng xe");
-            return;
-        }
-        if (TextUtils.isEmpty(carCode)) {
-            edtCarCode.setError("Vui lòng nhập mã xe");
-            return;
-        }
-        if (TextUtils.isEmpty(carColor)) {
-            edtCarColor.setError("Vui lòng nhập màu xe");
-            return;
-        }
-        if (TextUtils.isEmpty(licensePlate)) {
-            edtLicensePlate.setError("Vui lòng nhập biển số xe");
-            return;
-        }
-        if (TextUtils.isEmpty(issue)) {
-            edtIssue.setError("Vui lòng nhập loại sự cố");
+            editPhone.setError("Vui lòng nhập số điện thoại");
             return;
         }
 
-        // Nếu tất cả dữ liệu đều hợp lệ, hiển thị thông báo thành công
-        Toast.makeText(this, "Yêu cầu cứu hộ đã được gửi thành công!", Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(address)) {
+            editAddress.setError("Vui lòng nhập địa chỉ");
+            return;
+        }
 
-        // (Tùy chọn) Thực hiện điều hướng hoặc lưu dữ liệu
-        // Intent intent = new Intent(this, AnotherActivity.class);
-        // startActivity(intent);
+        if (TextUtils.isEmpty(vehicleBrand)) {
+            editVehicleBrand.setError("Vui lòng nhập hãng xe");
+            return;
+        }
 
-        // (Tùy chọn) Reset các trường nhập sau khi gửi thành công
-        resetForm();
+        if (TextUtils.isEmpty(vehicleType)) {
+            editVehicleType.setError("Vui lòng nhập loại xe");
+            return;
+        }
+
+        if (TextUtils.isEmpty(vehicleInfo)) {
+            editVehicleInfo.setError("Vui lòng nhập thông tin xe");
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        // Gửi yêu cầu cứu hộ
+        RescueReqMetadata metadata = new RescueReqMetadata(rescueTitle, vehicleBrand, vehicleType, vehicleInfo);
+        RescueReqBody rescueBody = new RescueReqBody(rescueTitle, description, 10.875073, 106.800732, address, phone, metadata);
+
+        rescueSvc.createRescueReq(rescueBody, new ApiCallback<BaseResp<RescueReq>>() {
+            @Override
+            public void onSuccess(BaseResp<RescueReq> response) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(ServiceOrderActivity.this, "Yêu cầu cứu hộ đã được gửi: " + response.getData().getId(), Toast.LENGTH_SHORT).show();
+                resetForm();
+                Intent intent = new Intent(ServiceOrderActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onError(String message) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(ServiceOrderActivity.this, "Gửi yêu cầu cứu hộ thất bại", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void resetForm() {
-        edtName.setText("");
-        edtPhone.setText("");
-        edtCarBrand.setText("");
-        edtCarCode.setText("");
-        edtCarColor.setText("");
-        edtLicensePlate.setText("");
-        edtIssue.setText("");
+        editDescription.setText("");
+        editPhone.setText("");
+        editAddress.setText("");
+        editVehicleBrand.setText("");
+        editVehicleType.setText("");
+        editVehicleInfo.setText("");
     }
 }

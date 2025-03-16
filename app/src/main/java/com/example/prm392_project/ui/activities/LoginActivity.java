@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
     private Button btnLogin, btnRegister, btnGoogleLogin;
+    private ProgressBar progressBar;
     private AuthSvc authSvc;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
@@ -56,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
         btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
+        progressBar = findViewById(R.id.progressBar);
         authSvc = new AuthSvc(LoginActivity.this);
 
         // Set click listeners
@@ -68,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
+        progressBar.setVisibility(View.VISIBLE);
+
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Please enter all details", Toast.LENGTH_SHORT).show();
             return;
@@ -76,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         authSvc.login(email, password, new ApiCallback<BaseResp<LoginResp>>() {
             @Override
             public void onSuccess(BaseResp<LoginResp> response) {
+                progressBar.setVisibility(View.GONE);
                 LoginResp data = response.getData();
                 if (data != null) {
                     Toast.makeText(LoginActivity.this, "Login successful UserId: " + data.getUserId(), Toast.LENGTH_SHORT).show();
@@ -88,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
+                progressBar.setVisibility(View.GONE);
                 Log.e(TAG, "Login error: " + message);
                 Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
             }
@@ -95,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginGoogle() {
+        progressBar.setVisibility(View.VISIBLE);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -110,10 +119,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (account != null) {
                     firebaseAuthWithGoogle(account);
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     Log.w(TAG, "Google Sign-In account is null");
                     Toast.makeText(this, "Google Sign-In failed: No account", Toast.LENGTH_SHORT).show();
                 }
             } catch (ApiException e) {
+                progressBar.setVisibility(View.GONE);
                 Log.w(TAG, "Google Sign-In failed with status code: " + e.getStatusCode(), e);
                 Toast.makeText(this, "Google Sign-In failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -123,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         String googleIdToken = account.getIdToken();
         if (googleIdToken == null) {
+            progressBar.setVisibility(View.GONE);
             Log.w(TAG, "Google ID Token is null");
             Toast.makeText(this, "Failed to get Google ID Token", Toast.LENGTH_SHORT).show();
             return;
@@ -148,6 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(BaseResp<LoginResp> response) {
                                                 LoginResp data = response.getData();
+                                                progressBar.setVisibility(View.GONE);
                                                 if (data != null) {
                                                     Toast.makeText(LoginActivity.this, "Google Login successful UserId: " + data.getUserId(), Toast.LENGTH_SHORT).show();
                                                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
@@ -161,16 +174,19 @@ public class LoginActivity extends AppCompatActivity {
 
                                             @Override
                                             public void onError(String message) {
+                                                progressBar.setVisibility(View.GONE);
                                                 Log.e(TAG, "Google Login error: " + message);
                                                 Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                                             }
                                         });
                                     } else {
+                                        progressBar.setVisibility(View.GONE);
                                         Log.w(TAG, "Failed to get Firebase ID Token", tokenTask.getException());
                                         Toast.makeText(LoginActivity.this, "Failed to get Firebase ID Token", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     } else {
+                        progressBar.setVisibility(View.GONE);
                         Log.w(TAG, "Firebase Auth sign-in failed", task.getException());
                         Toast.makeText(LoginActivity.this, "Firebase authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }

@@ -15,6 +15,13 @@
         android:scaleType="fitCenter"
         android:src="@drawable/logo" />
 
+    <Button
+        android:id="@+id/btnGoogleLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/red"
+        android:text="Login with Google" />
+
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
@@ -36,34 +43,20 @@
         android:backgroundTint="@color/orange"
         android:text="Login" />
 
+    <TextView
+        android:id="@+id/tvForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingVertical="10dp"
+        android:text="Forgot Password?"
+        android:textColor="@color/teal_200" />
+
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orange"
         android:text="Register" />
-
-    <TextView
-        android:id="@+id/tvForgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingTop="10dp"
-        android:text="Forgot Password?"
-        android:textColor="@color/teal_200" />
-
-    <EditText
-        android:id="@+id/etPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phone Number"
-        android:inputType="phone" />
-
-    <Button
-        android:id="@+id/btnSendOTP"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/orange"
-        android:text="Send OTP" />
 
 </LinearLayout>

@@ -3,18 +3,26 @@ package com.example.prm392_project.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.data.external.interfaces.ApiCallback;
+import com.example.prm392_project.data.external.interfaces.IAuthSvc;
+import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.response.LoginResp;
+import com.example.prm392_project.data.external.services.AuthSvc;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etEmail, etPassword, etPhone;
-    private Button btnLogin, btnRegister, btnSendOTP;
+    private EditText etEmail, etPassword;
+    private Button btnLogin, btnRegister, btnGoogleLogin;
+    private AuthSvc authSvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +31,10 @@ public class LoginActivity extends AppCompatActivity {
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        etPhone = findViewById(R.id.etPhone);
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
-        btnSendOTP = findViewById(R.id.btnSendOTP);
+        btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
+        authSvc = new AuthSvc(LoginActivity.this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,10 +51,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnSendOTP.setOnClickListener(new View.OnClickListener() {
+        btnGoogleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendOTP();
+                Toast.makeText(LoginActivity.this, "Google login is not implemented yet", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -60,30 +68,27 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Dummy authentication, replace with actual logic
-        if (email.equals("admin@gmail.com") && password.equals("123456")) {
-            Intent intent = new Intent(LoginActivity.this, UserManagementActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (email.equals("user@gmail.com") && password.equals("123456")) {
+        authSvc.login(email, password, new ApiCallback<BaseResp<LoginResp>>() {
+            @Override
+            public void onSuccess(BaseResp<LoginResp> response) {
+                LoginResp data = response.getData();
 
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
-        } else {
-            Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
-        }
-        }
+                if (data != null) {
+                    Toast.makeText(LoginActivity.this, "Login successful UserId: " + data.getUserId(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
 
-
-    private void sendOTP () {
-        String phone = etPhone.getText().toString().trim();
-
-        if (TextUtils.isEmpty(phone)) {
-            Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // Dummy OTP sending logic, replace with actual OTP sending logic
-        Toast.makeText(this, "OTP sent to " + phone, Toast.LENGTH_SHORT).show();
+            @Override
+            public void onError(String message) {
+                Log.e("LoginActivity", message);
+                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 }

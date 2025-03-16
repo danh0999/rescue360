@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -62,7 +61,6 @@
                 android:padding="12dp"
                 android:textSize="16sp" />
 
-            <!-- Số điện thoại -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,7 +96,6 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-            <!-- Email -->
             <EditText
                 android:id="@+id/userEmail"
                 android:layout_width="match_parent"
@@ -109,33 +106,33 @@
                 android:padding="12dp"
                 android:textSize="16sp" />
 
-            <!-- Giới tính -->
-            <EditText
-                android:id="@+id/userGender"
+
+            <Button
+                android:id="@+id/btnUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edittext_border"
-                android:enabled="true"
-                android:padding="12dp"
-                android:textSize="16sp" />
-
-            <!-- Nút đăng xuất -->
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
                 android:layout_marginTop="24dp"
-                android:background="@color/orange"
                 android:backgroundTint="@null"
                 android:elevation="4dp"
-                android:text="ĐĂNG XUẤT"
+                android:text="Update"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
-
         </LinearLayout>
     </ScrollView>
+
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/red"
+        android:elevation="4dp"
+        android:text="ĐĂNG XUẤT"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 
     <!-- Bottom Navigation View -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

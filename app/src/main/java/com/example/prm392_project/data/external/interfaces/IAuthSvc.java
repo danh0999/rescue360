@@ -15,6 +15,9 @@ public interface IAuthSvc {
     @POST("api/v1/auth/login")
     Call<BaseResp<LoginResp>> login(@Body LoginReq request);
 
+    @POST("api/v1/auth/login")
+    Call<BaseResp<LoginResp>> loginFirebase(@Body LoginReq request);
+
     @POST("api/v1/auth/register")
     Call<BaseResp<User>> register(@Body RegisterReq request);
 

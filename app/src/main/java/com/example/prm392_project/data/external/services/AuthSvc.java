@@ -27,8 +27,31 @@ public class AuthSvc {
     }
 
     public void login(String email, String password, ApiCallback<BaseResp<LoginResp>> callback) {
-        LoginReq request = new LoginReq(AuthType.Email, email, password);
+        LoginReq request = new LoginReq(AuthType.Email.getValue(), email, password);
         Call<BaseResp<LoginResp>> call = authSvc.login(request);
+        call.enqueue(new Callback<BaseResp<LoginResp>>() {
+            @Override
+            public void onResponse(Call<BaseResp<LoginResp>> call, Response<BaseResp<LoginResp>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    TokenManager tokenManager = new TokenManager(context);
+                    tokenManager.saveToken(response.body().getData().getAccessToken());
+
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Login failed: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResp<LoginResp>> call, Throwable t) {
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    public void loginFirebase(String token, ApiCallback<BaseResp<LoginResp>> callback) {
+        LoginReq request = new LoginReq(AuthType.Firebase.getValue(), token);
+        Call<BaseResp<LoginResp>> call = authSvc.loginFirebase(request);
         call.enqueue(new Callback<BaseResp<LoginResp>>() {
             @Override
             public void onResponse(Call<BaseResp<LoginResp>> call, Response<BaseResp<LoginResp>> response) {

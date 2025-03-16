@@ -2,6 +2,7 @@ package com.example.prm392_project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,29 +11,33 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.data.external.interfaces.ApiCallback;
+import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.services.AuthSvc;
+import com.example.prm392_project.data.models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private EditText edtName, edtPhone, edtEmail, edtGender;
+    private EditText edtName, edtPhone, edtEmail;
     private Button btnLogout;
+
+    private AuthSvc authSvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_information);
 
-        // Ánh xạ view
         edtName = findViewById(R.id.userName);
         edtPhone = findViewById(R.id.userPhoneNumber);
         edtEmail = findViewById(R.id.userEmail);
-        edtGender = findViewById(R.id.userGender);
         btnLogout = findViewById(R.id.btnLogout);
 
-        // Giả lập dữ liệu người dùng
+        authSvc = new AuthSvc(ProfileActivity.this);
+
         loadUserData();
 
-        // Xử lý sự kiện đăng xuất
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,7 +45,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Xử lý sự kiện BottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_profile);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -60,15 +64,27 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.nav_profile);
     }
 
-    // Hàm load dữ liệu giả lập
     private void loadUserData() {
-        edtName.setText("Ngo Tuan Phong");
-        edtPhone.setText("0123456789");
-        edtEmail.setText("user@gmail.com");
-        edtGender.setText("Nam");
+        authSvc.getProfile(new ApiCallback<BaseResp<User>>() {
+            @Override
+            public void onSuccess(BaseResp<User> response) {
+                User user = response.getData();
+                if (user != null) {
+                    edtName.setText(user.getFullName());
+                    edtPhone.setText(user.getPhone());
+                    edtEmail.setText(user.getEmail());
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.e("ProfileActivity", "Failed to get user profile: " + message);
+                Toast.makeText(ProfileActivity.this, "Failed to get user profile", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    // Xử lý đăng xuất
+    // Logout
     private void logoutUser() {
         Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);

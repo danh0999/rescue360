@@ -9,6 +9,8 @@ import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.response.RescueReqBody;
 import com.example.prm392_project.data.models.RescueReq;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,11 +43,11 @@ public class RescueSvc {
         });
     }
 
-    public void getUserRescueReq(ApiCallback<BaseResp<RescueReq>> callback) {
-        Call<BaseResp<RescueReq>> call = rescueSvc.getUserRescueReq();
-        call.enqueue(new Callback<BaseResp<RescueReq>>() {
+    public void getUserRescueReq(ApiCallback<BaseResp<List<RescueReq>>> callback) {
+        Call<BaseResp<List<RescueReq>>> call = rescueSvc.getUserRescueReq();
+        call.enqueue(new Callback<BaseResp<List<RescueReq>>>() {
             @Override
-            public void onResponse(Call<BaseResp<RescueReq>> call, Response<BaseResp<RescueReq>> response) {
+            public void onResponse(Call<BaseResp<List<RescueReq>>> call, Response<BaseResp<List<RescueReq>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
                 } else {
@@ -54,17 +56,17 @@ public class RescueSvc {
             }
 
             @Override
-            public void onFailure(Call<BaseResp<RescueReq>> call, Throwable t) {
+            public void onFailure(Call<BaseResp<List<RescueReq>>> call, Throwable t) {
                 callback.onError("Network error: " + t.getMessage());
             }
         });
     }
 
-    public void getAdminRescueReq(ApiCallback<BaseResp<RescueReq>> callback) {
-        Call<BaseResp<RescueReq>> call = rescueSvc.getAdminRescueReq();
-        call.enqueue(new Callback<BaseResp<RescueReq>>() {
+    public void getAdminRescueReq(ApiCallback<BaseResp<List<RescueReq>>> callback) {
+        Call<BaseResp<List<RescueReq>>> call = rescueSvc.getAdminRescueReq();
+        call.enqueue(new Callback<BaseResp<List<RescueReq>>>() {
             @Override
-            public void onResponse(Call<BaseResp<RescueReq>> call, Response<BaseResp<RescueReq>> response) {
+            public void onResponse(Call<BaseResp<List<RescueReq>>> call, Response<BaseResp<List<RescueReq>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
                 } else {
@@ -73,7 +75,7 @@ public class RescueSvc {
             }
 
             @Override
-            public void onFailure(Call<BaseResp<RescueReq>> call, Throwable t) {
+            public void onFailure(Call<BaseResp<List<RescueReq>>> call, Throwable t) {
                 callback.onError("Network error: " + t.getMessage());
             }
         });

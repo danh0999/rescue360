@@ -4,6 +4,8 @@ import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.response.RescueReqBody;
 import com.example.prm392_project.data.models.RescueReq;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -14,8 +16,8 @@ public interface IRescueSvc {
     Call<BaseResp<RescueReq>> createRescueReq(@Body RescueReqBody request);
 
     @GET("api/v1/rescue-req/user")
-    Call<BaseResp<RescueReq>> getUserRescueReq();
+    Call<BaseResp<List<RescueReq>>> getUserRescueReq();
 
     @GET("api/v1/rescue-req/admin")
-    Call<BaseResp<RescueReq>> getAdminRescueReq();
+    Call<BaseResp<List<RescueReq>>> getAdminRescueReq();
 }

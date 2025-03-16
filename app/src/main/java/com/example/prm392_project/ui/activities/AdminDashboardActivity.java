@@ -44,7 +44,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
         setupRecyclerView(rvAvailableStaff, Arrays.asList("Staff 1", "Staff 2"));
         setupRecyclerView(rvCompletedMissions, Arrays.asList("Mission 1", "Mission 2"));
 
-        cardActiveRequests.setOnClickListener(v -> toggleRecyclerView(rvActiveRequests));
+        cardActiveRequests.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RequestListActivity.class);
+            startActivity(intent);
+        });
         cardAvailableStaff.setOnClickListener(v -> toggleRecyclerView(rvAvailableStaff));
         cardCompletedMissions.setOnClickListener(v -> toggleRecyclerView(rvCompletedMissions));
 

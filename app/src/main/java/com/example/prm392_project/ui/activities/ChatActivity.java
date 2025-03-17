@@ -1,7 +1,10 @@
 package com.example.prm392_project.ui.activities;
 
+import static com.example.prm392_project.constants.ApiConst.BASE_URL;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -14,20 +17,29 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.data.external.api.SignalRService;
 import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.response.MessageReq;
 import com.example.prm392_project.data.external.response.MessagesResp;
 import com.example.prm392_project.data.external.services.ChatSvc;
+import com.example.prm392_project.data.internal.TokenManager;
 import com.example.prm392_project.data.models.Conversation;
 import com.example.prm392_project.data.models.Message;
-import com.example.prm392_project.ui.activities.HomeActivity;
-import com.example.prm392_project.ui.activities.ProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import android.widget.LinearLayout;
+
+import com.microsoft.signalr.Action1;
+import com.microsoft.signalr.HubConnection;
+import com.microsoft.signalr.HubConnectionBuilder;
+import com.microsoft.signalr.HubConnectionState;
+import com.microsoft.signalr.TransportEnum;
+
 import java.util.List;
 import java.util.Collections;
+
+import io.reactivex.rxjava3.core.Single;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -38,6 +50,7 @@ public class ChatActivity extends AppCompatActivity {
     private Conversation conversation;
     private ProgressBar progressBar;
     private NestedScrollView scrollViewMessages;
+    private SignalRService signalRService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +63,12 @@ public class ChatActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Tin nhắn");
 
-        // Initialize views
         linearLayoutMessages = findViewById(R.id.linearLayoutMessages);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.buttonSend);
         scrollViewMessages = findViewById(R.id.scrollViewMessages);
 
-        // Get conversation
         progressBar.setVisibility(View.VISIBLE);
-
         chatSvc.getUserRescueConversation(new ApiCallback<BaseResp<Conversation>>() {
             @Override
             public void onSuccess(BaseResp<Conversation> response) {
@@ -77,16 +87,13 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message = editTextMessage.getText().toString().trim();
-                if (!message.isEmpty()) {
-                    handleSendNewMessage(message);
-                    editTextMessage.setText("");
-                } else {
-                    Toast.makeText(ChatActivity.this, "Vui lòng nhập tin nhắn", Toast.LENGTH_SHORT).show();
-                }
+        buttonSend.setOnClickListener(v -> {
+            String message = editTextMessage.getText().toString().trim();
+            if (!message.isEmpty()) {
+                handleSendNewMessage(message);
+                editTextMessage.setText("");
+            } else {
+                Toast.makeText(ChatActivity.this, "Vui lòng nhập tin nhắn", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -98,7 +105,7 @@ public class ChatActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 return true;
             } else if (itemId == R.id.nav_message) {
-                return true; // Đang ở Chat, không cần chuyển trang
+                return true;
             } else if (itemId == R.id.nav_profile) {
                 startActivity(new Intent(ChatActivity.this, ProfileActivity.class));
                 overridePendingTransition(0, 0);
@@ -107,6 +114,32 @@ public class ChatActivity extends AppCompatActivity {
             return false;
         });
         bottomNavigationView.setSelectedItemId(R.id.nav_message);
+
+        signalRService = SignalRService.getInstance(this);
+
+        signalRService.addMessageHandler(message -> {
+            runOnUiThread(() -> {
+                Toast.makeText(ChatActivity.this, "Bạn có tin nhắn mới", Toast.LENGTH_SHORT).show();
+                handleGetMessages();
+            });
+        });
+
+        // Connect to SignalR
+        signalRService.connect(new SignalRService.OnConnectionCallback() {
+            @Override
+            public void onConnected() {
+                runOnUiThread(() -> {
+                    Toast.makeText(ChatActivity.this, "Connected to chat server", Toast.LENGTH_SHORT).show();
+                });
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                runOnUiThread(() -> {
+                    Toast.makeText(ChatActivity.this, "Connection error: " + errorMessage, Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
     }
 
     private void handleSendNewMessage(String message) {
@@ -116,6 +149,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onSuccess(BaseResp<Message> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.getData() != null) {
+                    // Add message to UI immediately
                     addMessage(response.getData().getContent(), false);
                     scrollToBottom();
                 }
@@ -136,19 +170,13 @@ public class ChatActivity extends AppCompatActivity {
             public void onSuccess(BaseResp<MessagesResp> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.getData() != null) {
-                    // Clear any existing messages
                     linearLayoutMessages.removeAllViews();
-
-                    // Get messages and reverse to show oldest first
                     List<Message> messages = response.getData().getMessages();
                     Collections.reverse(messages);
-
                     for (Message message : messages) {
-                        boolean isSystem = message.getCreatedBy().equals(conversation.getCreatedBy());
+                        boolean isSystem = !message.getCreatedBy().equals(conversation.getCreatedBy());
                         addMessage(message.getContent(), isSystem);
                     }
-
-                    // Scroll to the bottom to show latest messages
                     scrollToBottom();
                 }
             }
@@ -172,11 +200,11 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void scrollToBottom() {
-        scrollViewMessages.post(new Runnable() {
-            @Override
-            public void run() {
-                scrollViewMessages.fullScroll(View.FOCUS_DOWN);
-            }
-        });
+        scrollViewMessages.post(() -> scrollViewMessages.fullScroll(View.FOCUS_DOWN));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

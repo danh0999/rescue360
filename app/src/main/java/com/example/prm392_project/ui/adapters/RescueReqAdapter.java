@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm392_project.R;
 import com.example.prm392_project.constants.RescueStatus;
 import com.example.prm392_project.data.models.RescueReq;
+import com.example.prm392_project.utils.DateUtils;
 
 import java.util.List;
 
@@ -190,7 +191,7 @@ public class RescueReqAdapter extends RecyclerView.Adapter<RescueReqAdapter.Resc
         try {
             // Here you can implement your preferred date formatting
             // This is just a placeholder - implement based on your timestamp format
-            return timestamp;
+            return DateUtils.formatDateTime(DateUtils.parseDateTime(timestamp, "yyyy-MM-dd HH:mm:ss"), "dd/MM/yyyy HH:mm");
         } catch (Exception e) {
             return timestamp;
         }

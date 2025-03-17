@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface IRescueSvc {
     @POST("api/v1/rescue-req")
@@ -20,4 +21,7 @@ public interface IRescueSvc {
 
     @GET("api/v1/rescue-req/admin")
     Call<BaseResp<List<RescueReq>>> getAdminRescueReq();
+
+    @GET("api/v1/rescue-req/{id}")
+    Call<BaseResp<RescueReq>> getRescueReqById(@Path("id") String id);
 }

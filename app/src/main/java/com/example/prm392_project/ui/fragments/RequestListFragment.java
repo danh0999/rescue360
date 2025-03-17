@@ -19,7 +19,7 @@ import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.services.RescueSvc;
 import com.example.prm392_project.data.models.RescueReq;
-import com.example.prm392_project.ui.activities.HomeActivity;
+import com.example.prm392_project.ui.activities.RescueDetailActivity;
 import com.example.prm392_project.ui.adapters.RescueReqAdapter;
 
 import java.util.List;
@@ -48,7 +48,10 @@ public class RequestListFragment extends Fragment {
                 if (response.getData() != null) {
                     List<RescueReq> rescueReqList = response.getData();
                     adapter = new RescueReqAdapter(getContext(), rescueReqList, rescueReq -> {
-                        Toast.makeText(getContext(), "Click on " + rescueReq.getTitle(), Toast.LENGTH_SHORT).show();
+                        // Xử lý sự kiện khi click vào một yêu cầu cứu hộ
+                        Intent intent = new Intent(getContext(), RescueDetailActivity.class);
+                        intent.putExtra("RESCUE_REQUEST_ID", rescueReq.getId());
+                        startActivity(intent);
                     });
 
                     recyclerView.setAdapter(adapter);
@@ -64,8 +67,6 @@ public class RequestListFragment extends Fragment {
         // Xử lý sự kiện nút "Trở về Home"
         Button btnBackToHome = view.findViewById(R.id.btnBackToHome);
         btnBackToHome.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), HomeActivity.class);
-            startActivity(intent);
             requireActivity().finish();
         });
 

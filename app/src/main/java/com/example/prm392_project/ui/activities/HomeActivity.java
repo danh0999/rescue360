@@ -42,6 +42,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TokenManager tokenManager;
     private UserManager userManager;
 
+    private Button btnRequests;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,8 +104,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         setupServiceClick(R.id.tvOther, "Khác");
 
         // Chuyển trang sang ListFragment khi click nút (Giả sử nút có id btnViewRequests)
-        Button btnViewRequests = findViewById(R.id.btn_payment);
-        btnViewRequests.setOnClickListener(v -> {
+        Button btnPayment = findViewById(R.id.btn_payment);
+        btnRequests = findViewById(R.id.btn_requests);
+        btnRequests.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, RequestListActivity.class);
             startActivity(intent);
         });
@@ -136,6 +139,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void logout() {
         tokenManager.clearToken();
+        userManager.clearUser();
+        userManager.saveIsAdmin(false);
         Toast.makeText(this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -203,6 +208,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                         userManager.saveUser(user);
                         Intent intent = new Intent(HomeActivity.this, AdminDashboardActivity.class);
                         startActivity(intent);
+                    } else {
+                        userManager.saveIsAdmin(false);
+                        userManager.saveUser(user);
                     }
                 }
             }

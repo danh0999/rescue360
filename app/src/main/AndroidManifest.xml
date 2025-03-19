@@ -30,6 +30,7 @@
         <activity android:name=".ui.activities.ChatActivity"/>
         <activity android:name=".ui.activities.RescueDetailActivity"/>
         <activity android:name=".ui.activities.RescueStaffActivity"/>
+        <activity android:name=".ui.activities.SelectRescueStaffActivity"/>
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true">

@@ -13,9 +13,21 @@ import java.util.List;
 
 public class RescueStaffAdapter extends RecyclerView.Adapter<RescueStaffAdapter.ViewHolder> {
     private List<RescueStaff> rescueStaffList;
+    private OnItemClickListener onItemClickListener;
+    private RescueStaff selectedStaff;
+
+    // Interface for item click events
+    public interface OnItemClickListener {
+        void onItemClick(RescueStaff staff);
+    }
 
     public RescueStaffAdapter(List<RescueStaff> rescueStaffList) {
         this.rescueStaffList = rescueStaffList;
+    }
+
+    public RescueStaffAdapter(List<RescueStaff> rescueStaffList, OnItemClickListener listener) {
+        this.rescueStaffList = rescueStaffList;
+        this.onItemClickListener = listener;
     }
 
     @NonNull
@@ -29,17 +41,29 @@ public class RescueStaffAdapter extends RecyclerView.Adapter<RescueStaffAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RescueStaff staff = rescueStaffList.get(position);
         holder.positionText.setText(staff.getPosition());
-        holder.nameText.setText(staff.getUser().getFullName());
+        holder.nameText.setText(staff.getUser().getFullName());  // Ensure correct method
+        holder.availabilityText.setText(staff.isAvailable() ? "Available" : "Not Available");
+        holder.availabilityText.setTextColor(ContextCompat.getColor(
+                holder.itemView.getContext(),
+                staff.isAvailable() ? R.color.green : R.color.red
+        ));
+        holder.availabilityIndicator.setBackgroundResource(staff.isAvailable()
+                ? R.drawable.circle_indicator
+                : R.drawable.circle_indicator_red
+        );
 
-        if (staff.isAvailable()) {
-            holder.availabilityText.setText("Available");
-            holder.availabilityText.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.green));
-            holder.availabilityIndicator.setBackgroundResource(R.drawable.circle_indicator);
-        } else {
-            holder.availabilityText.setText("Not Available");
-            holder.availabilityText.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.red));
-            holder.availabilityIndicator.setBackgroundResource(R.drawable.circle_indicator_red);
-        }
+        // Highlight selected item
+        holder.itemView.setBackgroundColor(
+                staff == selectedStaff ? ContextCompat.getColor(holder.itemView.getContext(), R.color.light_gray)
+                        : ContextCompat.getColor(holder.itemView.getContext(), android.R.color.white)
+        );
+
+        // Click listener
+        holder.itemView.setOnClickListener(v -> {
+            selectedStaff = staff;
+            notifyDataSetChanged();  // Refresh UI
+            onItemClickListener.onItemClick(staff);
+        });
     }
 
     @Override

@@ -7,15 +7,15 @@ public class RescueStaff {
     private String description;
     public boolean isAvailable;
 
-    public User createdUser;
+    public User user;
 
-    public RescueStaff(String id, String userId, String position, String description, boolean isAvailable, User createdUser) {
+    public RescueStaff(String id, String userId, String position, String description, boolean isAvailable, User user) {
         this.id = id;
         this.userId = userId;
         this.position = position;
         this.description = description;
         this.isAvailable = isAvailable;
-        this.createdUser = createdUser;
+        this.user = user;
     }
 
     public String getId() {
@@ -38,8 +38,8 @@ public class RescueStaff {
         return isAvailable;
     }
 
-    public User getCreatedUser() {
-        return createdUser;
+    public User getUser() {
+        return user;
     }
 
 }

@@ -48,7 +48,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RequestListActivity.class);
             startActivity(intent);
         });
-        cardAvailableStaff.setOnClickListener(v -> toggleRecyclerView(rvAvailableStaff));
+        cardAvailableStaff.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RescueStaffActivity.class);
+            startActivity(intent);
+        });
         cardCompletedMissions.setOnClickListener(v -> toggleRecyclerView(rvCompletedMissions));
 
         btnMenu = findViewById(R.id.btnMenu);

@@ -63,7 +63,6 @@ public class RescueStaffSvc {
         });
     }
 
-
     public void getRescueStaffAssigns(ApiCallback<BaseResp<List<RescueAssign>>> callback) {
         Call<BaseResp<List<RescueAssign>>> call = rescueStaffSvc.getRescueStaffAssigns();
         call.enqueue(new Callback<BaseResp<List<RescueAssign>>>() {

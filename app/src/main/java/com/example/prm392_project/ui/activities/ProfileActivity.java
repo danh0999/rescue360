@@ -15,6 +15,7 @@ import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.response.UpdateProfileReq;
 import com.example.prm392_project.data.external.services.AuthSvc;
+import com.example.prm392_project.data.internal.UserManager;
 import com.example.prm392_project.data.models.User;
 import com.example.prm392_project.data.internal.TokenManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,6 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private AuthSvc authSvc;
     private TokenManager tokenManager;
+    private UserManager userManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         authSvc = new AuthSvc(ProfileActivity.this);
         tokenManager = new TokenManager(ProfileActivity.this);
+        userManager = new UserManager(ProfileActivity.this);
 
         loadUserData();
 
@@ -120,6 +123,8 @@ public class ProfileActivity extends AppCompatActivity {
     // Logout
     private void logoutUser() {
         tokenManager.clearToken();
+        userManager.clearUser();
+        userManager.saveIsAdmin(false);
         Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

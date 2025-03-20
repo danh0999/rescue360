@@ -80,4 +80,23 @@ public class RescueSvc {
             }
         });
     }
+
+    public void getRescueReqById(String id, ApiCallback<BaseResp<RescueReq>> callback) {
+        Call<BaseResp<RescueReq>> call = rescueSvc.getRescueReqById(id);
+        call.enqueue(new Callback<BaseResp<RescueReq>>() {
+            @Override
+            public void onResponse(Call<BaseResp<RescueReq>> call, Response<BaseResp<RescueReq>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Get rescue request by ID failed: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResp<RescueReq>> call, Throwable t) {
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
 }

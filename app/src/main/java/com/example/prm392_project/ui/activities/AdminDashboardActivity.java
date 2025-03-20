@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.Arrays;
 import java.util.List;
 
 import com.example.prm392_project.ui.adapters.DashboardAdapter;
@@ -21,8 +20,7 @@ import com.example.prm392_project.data.internal.TokenManager;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    private CardView cardActiveRequests, cardAvailableStaff, cardCompletedMissions;
-    private RecyclerView rvActiveRequests, rvAvailableStaff, rvCompletedMissions;
+    private CardView cardActiveRequests, cardAvailableStaff, cardConversations;
     private DashboardAdapter adapter;
     private Button btnMenu;
 
@@ -34,22 +32,20 @@ public class AdminDashboardActivity extends AppCompatActivity {
         // Ánh xạ view
         cardActiveRequests = findViewById(R.id.card_active_requests);
         cardAvailableStaff = findViewById(R.id.card_available_staff);
-        cardCompletedMissions = findViewById(R.id.card_completed_missions);
-
-        rvActiveRequests = findViewById(R.id.rv_active_requests);
-        rvAvailableStaff = findViewById(R.id.rv_available_staff);
-        rvCompletedMissions = findViewById(R.id.rv_completed_missions);
-
-        setupRecyclerView(rvActiveRequests, Arrays.asList("Request 1", "Request 2"));
-        setupRecyclerView(rvAvailableStaff, Arrays.asList("Staff 1", "Staff 2"));
-        setupRecyclerView(rvCompletedMissions, Arrays.asList("Mission 1", "Mission 2"));
+        cardConversations = findViewById(R.id.card_conversations);
 
         cardActiveRequests.setOnClickListener(v -> {
             Intent intent = new Intent(this, RequestListActivity.class);
             startActivity(intent);
         });
-        cardAvailableStaff.setOnClickListener(v -> toggleRecyclerView(rvAvailableStaff));
-        cardCompletedMissions.setOnClickListener(v -> toggleRecyclerView(rvCompletedMissions));
+        cardAvailableStaff.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RescueStaffActivity.class);
+            startActivity(intent);
+        });
+        cardConversations.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ConversationListActivity.class);
+            startActivity(intent);
+        });
 
         btnMenu = findViewById(R.id.btnMenu);
 

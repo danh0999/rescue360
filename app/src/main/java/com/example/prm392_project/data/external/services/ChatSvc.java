@@ -6,6 +6,7 @@ import com.example.prm392_project.data.external.api.ApiClient;
 import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.interfaces.IChatSvc;
 import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.response.ConversationListResp;
 import com.example.prm392_project.data.external.response.MessageReq;
 import com.example.prm392_project.data.external.response.MessagesResp;
 import com.example.prm392_project.data.models.Conversation;
@@ -83,11 +84,11 @@ public class ChatSvc {
         });
     }
 
-    public void getAdminRescueConversation(ApiCallback<BaseResp<List<Conversation>>> callback) {
-        Call<BaseResp<List<Conversation>>> call = chatSvc.getAdminRescueConversation();
-        call.enqueue(new Callback<BaseResp<List<Conversation>>>() {
+    public void getAdminRescueConversation(ApiCallback<BaseResp<ConversationListResp>> callback) {
+        Call<BaseResp<ConversationListResp>> call = chatSvc.getAdminRescueConversation();
+        call.enqueue(new Callback<BaseResp<ConversationListResp>>() {
             @Override
-            public void onResponse(Call<BaseResp<List<Conversation>>> call, Response<BaseResp<List<Conversation>>> response) {
+            public void onResponse(Call<BaseResp<ConversationListResp>> call, Response<BaseResp<ConversationListResp>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
                 } else {
@@ -96,7 +97,7 @@ public class ChatSvc {
             }
 
             @Override
-            public void onFailure(Call<BaseResp<List<Conversation>>> call, Throwable t) {
+            public void onFailure(Call<BaseResp<ConversationListResp>> call, Throwable t) {
                 callback.onError("Network error: " + t.getMessage());
             }
         });

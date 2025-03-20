@@ -1,6 +1,7 @@
 package com.example.prm392_project.data.external.interfaces;
 
 import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.response.ConversationListResp;
 import com.example.prm392_project.data.external.response.MessageReq;
 import com.example.prm392_project.data.external.response.MessagesResp;
 import com.example.prm392_project.data.models.Conversation;
@@ -28,6 +29,6 @@ public interface IChatSvc {
             @Query("conversationId") String conversationId
     );
 
-    @GET("api/v1/chat/conversation/admin")
-    Call<BaseResp<List<Conversation>>> getAdminRescueConversation();
+    @GET("api/v1/chat/conversation/admin?client=rescue&page=1&pageSize=100")
+    Call<BaseResp<ConversationListResp>> getAdminRescueConversation();
 }

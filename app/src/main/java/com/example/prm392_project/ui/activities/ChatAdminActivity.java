@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
 
 import com.example.prm392_project.R;
 import com.example.prm392_project.data.external.api.SignalRService;
@@ -20,60 +19,59 @@ import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.response.MessageReq;
 import com.example.prm392_project.data.external.response.MessagesResp;
 import com.example.prm392_project.data.external.services.ChatSvc;
+import com.example.prm392_project.data.internal.UserManager;
 import com.example.prm392_project.data.models.Conversation;
 import com.example.prm392_project.data.models.Message;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import android.widget.LinearLayout;
 
-import java.util.List;
-import java.util.Collections;
+import androidx.core.widget.NestedScrollView;
 
-public class ChatActivity extends AppCompatActivity {
+import java.util.Collections;
+import java.util.List;
+
+public class ChatAdminActivity extends AppCompatActivity {
 
     private LinearLayout linearLayoutMessages;
     private EditText editTextMessage;
     private ImageButton buttonSend;
     private ChatSvc chatSvc;
-    private Conversation conversation;
+    private Conversation conversation; // Will be passed from intent
     private ProgressBar progressBar;
     private NestedScrollView scrollViewMessages;
     private SignalRService signalRService;
 
+    private String conversationId;
+    private UserManager userManager;
+    private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_roomchat);
-        chatSvc = new ChatSvc(ChatActivity.this);
+        setContentView(R.layout.activity_roomchat); // Reusing the same layout
+        chatSvc = new ChatSvc(ChatAdminActivity.this);
+        userManager = new UserManager(ChatAdminActivity.this);
         progressBar = findViewById(R.id.progressBar);
 
+        // Setup Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Tin nhắn");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Add back arrow
 
         linearLayoutMessages = findViewById(R.id.linearLayoutMessages);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.buttonSend);
         scrollViewMessages = findViewById(R.id.scrollViewMessages);
 
-        progressBar.setVisibility(View.VISIBLE);
-        chatSvc.getUserRescueConversation(new ApiCallback<BaseResp<Conversation>>() {
-            @Override
-            public void onSuccess(BaseResp<Conversation> response) {
-                progressBar.setVisibility(View.GONE);
-                if (response.getData() != null) {
-                    conversation = response.getData();
-                    getSupportActionBar().setTitle(conversation.getName());
-                    handleGetMessages();
-                }
-            }
+        conversationId = getIntent().getStringExtra("CONVERSATION_ID");
 
-            @Override
-            public void onError(String message) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
+        bottomNavigationView = findViewById(R.id.bottom_navigation_roomchat);
+        bottomNavigationView.setVisibility(View.GONE);
+
+        // Load messages for this conversation
+        progressBar.setVisibility(View.VISIBLE);
+        handleGetMessages();
 
         buttonSend.setOnClickListener(v -> {
             String message = editTextMessage.getText().toString().trim();
@@ -81,50 +79,31 @@ public class ChatActivity extends AppCompatActivity {
                 handleSendNewMessage(message);
                 editTextMessage.setText("");
             } else {
-                Toast.makeText(ChatActivity.this, "Vui lòng nhập tin nhắn", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatAdminActivity.this, "Vui lòng nhập tin nhắn", Toast.LENGTH_SHORT).show();
             }
         });
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_roomchat);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.nav_home) {
-                startActivity(new Intent(ChatActivity.this, HomeActivity.class));
-                overridePendingTransition(0, 0);
-                return true;
-            } else if (itemId == R.id.nav_message) {
-                return true;
-            } else if (itemId == R.id.nav_profile) {
-                startActivity(new Intent(ChatActivity.this, ProfileActivity.class));
-                overridePendingTransition(0, 0);
-                return true;
-            }
-            return false;
-        });
-        bottomNavigationView.setSelectedItemId(R.id.nav_message);
-
+        // SignalR setup
         signalRService = SignalRService.getInstance(this);
-
         signalRService.addMessageHandler(message -> {
             runOnUiThread(() -> {
-                Toast.makeText(ChatActivity.this, "Bạn có tin nhắn mới", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatAdminActivity.this, "Bạn có tin nhắn mới", Toast.LENGTH_SHORT).show();
                 handleGetMessages();
             });
         });
 
-        // Connect to SignalR
         signalRService.connect(new SignalRService.OnConnectionCallback() {
             @Override
             public void onConnected() {
                 runOnUiThread(() -> {
-                    Toast.makeText(ChatActivity.this, "Connected to chat server", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatAdminActivity.this, "Connected to chat server", Toast.LENGTH_SHORT).show();
                 });
             }
 
             @Override
             public void onError(String errorMessage) {
                 runOnUiThread(() -> {
-                    Toast.makeText(ChatActivity.this, "Connection error: " + errorMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatAdminActivity.this, "Connection error: " + errorMessage, Toast.LENGTH_SHORT).show();
                 });
             }
         });
@@ -132,13 +111,12 @@ public class ChatActivity extends AppCompatActivity {
 
     private void handleSendNewMessage(String message) {
         progressBar.setVisibility(View.VISIBLE);
-        chatSvc.createMessage(new MessageReq(message, conversation.getId()), new ApiCallback<BaseResp<Message>>() {
+        chatSvc.createMessage(new MessageReq(message, conversationId), new ApiCallback<BaseResp<Message>>() {
             @Override
             public void onSuccess(BaseResp<Message> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.getData() != null) {
-                    // Add message to UI immediately
-                    addMessage(response.getData().getContent(), false);
+                    addMessage(response.getData().getContent(), false); // Admin messages as user type
                     scrollToBottom();
                 }
             }
@@ -146,14 +124,14 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatAdminActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void handleGetMessages() {
         progressBar.setVisibility(View.VISIBLE);
-        chatSvc.getMessagesByConversationId(1, 1000, conversation.getId(), new ApiCallback<BaseResp<MessagesResp>>() {
+        chatSvc.getMessagesByConversationId(1, 1000, conversationId, new ApiCallback<BaseResp<MessagesResp>>() {
             @Override
             public void onSuccess(BaseResp<MessagesResp> response) {
                 progressBar.setVisibility(View.GONE);
@@ -162,7 +140,8 @@ public class ChatActivity extends AppCompatActivity {
                     List<Message> messages = response.getData().getMessages();
                     Collections.reverse(messages);
                     for (Message message : messages) {
-                        boolean isSystem = !message.getCreatedBy().equals(conversation.getCreatedBy());
+                        // For admin view, we might want to distinguish admin vs client messages differently
+                        boolean isSystem = !message.getCreatedBy().equals(userManager.getUser().getId());
                         addMessage(message.getContent(), isSystem);
                     }
                     scrollToBottom();
@@ -172,7 +151,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatAdminActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -192,7 +171,14 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        finish(); // Go back to previous activity (likely ConversationListActivity)
+        return true;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        // Optionally disconnect SignalR if needed
     }
 }

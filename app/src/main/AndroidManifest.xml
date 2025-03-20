@@ -32,6 +32,7 @@
         <activity android:name=".ui.activities.RescueStaffActivity"/>
         <activity android:name=".ui.activities.SelectRescueStaffActivity"/>
         <activity android:name=".ui.activities.ConversationListActivity"/>
+        <activity android:name=".ui.activities.ChatAdminActivity"/>
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true">

@@ -105,11 +105,12 @@ public class ConversationListActivity extends AppCompatActivity {
             itemView.setOnClickListener(v -> {
                 // Handle conversation click - perhaps open conversation details
 
-                Intent intent = new Intent(ConversationListActivity.this, ChatActivity.class);
+                Intent intent = new Intent(ConversationListActivity.this, ChatAdminActivity.class);
 
                 // Pass conversation ID to ChatActivity
                 intent.putExtra("CONVERSATION_ID", conversation.getId());
                 startActivity(intent);
+                finish();
             });
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.prm392_project.data.internal.TokenManager;
+import com.example.prm392_project.data.internal.UserManager;
 import com.example.prm392_project.data.models.Message;
 import com.microsoft.signalr.Action1;
 import com.microsoft.signalr.HubConnection;
@@ -20,9 +21,11 @@ public class SignalRService {
     private int reconnectAttempts = 0;
     private final int maxReconnectAttempts = 5;
     private final long initialDelayMs = 2000; // 2 seconds
+    private UserManager userManager;
 
     private SignalRService(Context context) {
         TokenManager tokenManager = new TokenManager(context);
+        userManager = new UserManager(context);
         String token = tokenManager.getToken();
         hubConnection = HubConnectionBuilder.create("https://rescue360-server-production.up.railway.app/chat?access_token=" + token)
                 .withTransport(TransportEnum.WEBSOCKETS)
@@ -59,9 +62,16 @@ public class SignalRService {
                 isConnected = true;
                 reconnectAttempts = 0; // Reset attempt counter on successful connection
                 Log.d("SignalR", "Connected successfully");
+
+                // Join the "admin" group after successful connection
+                if (userManager.isAdmin()) {
+                    hubConnection.invoke("JoinGroup", "admin").blockingAwait();
+                    Log.d("SignalR", "Joined admin group successfully");
+                }
+
                 if (callback != null) callback.onConnected();
             } catch (Exception e) {
-                Log.e("SignalR", "Error connecting: " + e.getMessage());
+                Log.e("SignalR", "Error connecting or joining group: " + e.getMessage());
                 if (callback != null) callback.onError(e.getMessage());
                 attemptReconnect();
             }

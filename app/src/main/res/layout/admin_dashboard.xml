@@ -42,16 +42,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:text="Active Requests"
+                android:text="Yêu cầu đang chờ xử lý"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
         </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_active_requests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
 
         <!-- Available Staff Card -->
         <androidx.cardview.widget.CardView
@@ -66,20 +60,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:text="Available Staff"
+                android:text="Nhân viên sưả chữa"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
         </androidx.cardview.widget.CardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_available_staff"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
         <!-- Completed Missions Card -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_completed_missions"
+            android:id="@+id/card_conversations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -90,15 +78,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:text="Completed Missions"
+                android:text="Chat"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
         </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_completed_missions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

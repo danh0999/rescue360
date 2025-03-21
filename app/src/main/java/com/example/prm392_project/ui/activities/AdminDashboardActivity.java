@@ -79,17 +79,14 @@ public class AdminDashboardActivity extends AppCompatActivity {
             startActivity(new Intent(this, AdminDashboardActivity.class));
             return true;
 
-        } else if (id == R.id.nav_users) {
-            Toast.makeText(this, "Users clicked", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, UserManagementActivity.class)); // Chuyển sang trang Users
-            return true;
+        }
 
 //    } else if (id == R.id.nav_settings) {
 //        Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show();
 //        startActivity(new Intent(this, SettingsActivity.class)); // Chuyển sang trang Settings
 //        return true;
 
-        } else if (id == R.id.nav_logout) {
+        else if (id == R.id.nav_logout) {
             TokenManager tokenManager = new TokenManager(this);
             tokenManager.clearToken();
 

@@ -21,7 +21,6 @@
         <activity android:name=".ui.activities.HomeActivity"/>
         <activity android:name=".ui.activities.RegisterActivity"/>
         <activity android:name=".ui.activities.LoginActivity"/>
-        <activity android:name=".ui.activities.UserManagementActivity"/>
         <activity android:name=".ui.activities.ServiceOrderActivity" />
         <activity android:name=".ui.activities.PaymentMethodActivity" />
         <activity android:name=".ui.activities.RequestListActivity"/>

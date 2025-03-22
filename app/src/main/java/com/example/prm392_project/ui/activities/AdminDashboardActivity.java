@@ -1,17 +1,16 @@
 package com.example.prm392_project.ui.activities;
 
 import android.content.Intent;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.PopupMenu;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.List;
 
 import com.example.prm392_project.ui.adapters.DashboardAdapter;
@@ -22,7 +21,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     private CardView cardActiveRequests, cardAvailableStaff, cardConversations;
     private DashboardAdapter adapter;
-    private Button btnMenu;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
         cardActiveRequests = findViewById(R.id.card_active_requests);
         cardAvailableStaff = findViewById(R.id.card_available_staff);
         cardConversations = findViewById(R.id.card_conversations);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
+        // Xử lý sự kiện khi click vào các CardView
         cardActiveRequests.setOnClickListener(v -> {
             Intent intent = new Intent(this, RequestListActivity.class);
             startActivity(intent);
@@ -47,9 +48,25 @@ public class AdminDashboardActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnMenu = findViewById(R.id.btnMenu);
+        // Xử lý sự kiện cho BottomNavigationView
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
 
-        btnMenu.setOnClickListener(v -> showPopupMenu(v));
+                if (id == R.id.nav_dashboard) {
+                    Toast.makeText(AdminDashboardActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (id == R.id.nav_users) {
+                    startActivity(new Intent(AdminDashboardActivity.this, UserManagementActivity.class));
+                    return true;
+                } else if (id == R.id.nav_logout) {
+                    logout();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void setupRecyclerView(RecyclerView recyclerView, List<String> items) {
@@ -62,41 +79,12 @@ public class AdminDashboardActivity extends AppCompatActivity {
         recyclerView.setVisibility(recyclerView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
 
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        MenuInflater inflater = popupMenu.getMenuInflater();
-        inflater.inflate(R.menu.admin_nav_menu, popupMenu.getMenu());
+    private void logout() {
+        TokenManager tokenManager = new TokenManager(this);
+        tokenManager.clearToken();
 
-        popupMenu.setOnMenuItemClickListener(this::onMenuItemClick);
-        popupMenu.show();
+        Toast.makeText(this, "Logging out...", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish(); // Quay lại màn hình đăng nhập
     }
-
-    private boolean onMenuItemClick(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.nav_dashboard) {
-            Toast.makeText(this, "Dashboard clicked", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, AdminDashboardActivity.class));
-            return true;
-
-        }
-
-//    } else if (id == R.id.nav_settings) {
-//        Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show();
-//        startActivity(new Intent(this, SettingsActivity.class)); // Chuyển sang trang Settings
-//        return true;
-
-        else if (id == R.id.nav_logout) {
-            TokenManager tokenManager = new TokenManager(this);
-            tokenManager.clearToken();
-
-            Toast.makeText(this, "Logging out...", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish(); // Đảm bảo quay lại login
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }

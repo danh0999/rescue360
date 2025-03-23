@@ -15,6 +15,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.POST;
 
 public class RescueStaffSvc {
     private IRescueStaffSvc rescueStaffSvc;
@@ -44,8 +45,9 @@ public class RescueStaffSvc {
         });
     }
 
-    public void getRescueStaffAssigns(String rescueReqId, ApiCallback<BaseResp<List<RescueAssign>>> callback) {
-        Call<BaseResp<List<RescueAssign>>> call = rescueStaffSvc.getRescueStaffAssigns(rescueReqId);
+
+    public void getRescueAssigns(String rescueReqId, ApiCallback<BaseResp<List<RescueAssign>>> callback) {
+        Call<BaseResp<List<RescueAssign>>> call = rescueStaffSvc.getRescueAssigns(rescueReqId);
         call.enqueue(new Callback<BaseResp<List<RescueAssign>>>() {
             @Override
             public void onResponse(Call<BaseResp<List<RescueAssign>>> call, Response<BaseResp<List<RescueAssign>>> response) {

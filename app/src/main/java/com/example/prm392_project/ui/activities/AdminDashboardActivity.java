@@ -18,8 +18,6 @@ import com.example.prm392_project.ui.adapters.DashboardAdapter;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private DashboardAdapter adapter;
     private BottomNavigationView bottomNavigationView;
     private ImageButton btnMenu;
 
@@ -28,9 +26,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_dashboard);
 
-        // Ánh xạ view
-        recyclerView = findViewById(R.id.recyclerView);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
         btnMenu = findViewById(R.id.btnMenu);
 
         setupPopupMenu();
@@ -63,7 +60,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if (id == R.id.nav_request) {
+                if (id == R.id.nav_home) {
+                    Toast.makeText(AdminDashboardActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (id == R.id.nav_request) {
                     startActivity(new Intent(AdminDashboardActivity.this, RequestListActivity.class));
                     return true;
                 } else if (id == R.id.nav_users) {

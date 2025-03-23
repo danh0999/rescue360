@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/home_lg" />
+
+    <item
         android:id="@+id/nav_request"
         android:title="Requests"
         android:icon="@android:drawable/ic_menu_view" />
@@ -12,9 +17,8 @@
 
     <item
         android:id="@+id/nav_chat"
-        android:title="RoomChat"
+        android:title="Chat"
         android:icon="@drawable/message_lg"/>
-<!--        app:showAsAction="ifRoom" -->
 
 </menu>
 

@@ -11,11 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm392_project.R;
+import com.example.prm392_project.constants.RescueStatus;
 import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.AssignReq;
 import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.response.RescueReqBody;
+import com.example.prm392_project.data.external.response.RescueUpdate;
 import com.example.prm392_project.data.external.services.RescueStaffSvc;
+import com.example.prm392_project.data.external.services.RescueSvc;
 import com.example.prm392_project.data.models.RescueAssign;
+import com.example.prm392_project.data.models.RescueReq;
 import com.example.prm392_project.data.models.RescueStaff;
 import com.example.prm392_project.ui.adapters.RescueStaffAdapter;
 
@@ -30,6 +35,7 @@ public class SelectRescueStaffActivity extends AppCompatActivity {
     private List<RescueStaff> rescueStaffList;
     private RescueStaff selectedStaff;
     private RescueStaffSvc rescueStaffSvc;
+    private RescueSvc rescueSvc;
     private String rescueId;
 
 
@@ -39,6 +45,7 @@ public class SelectRescueStaffActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_rescue_staff);
 
         rescueStaffSvc = new RescueStaffSvc(this);
+        rescueSvc = new RescueSvc(this);
 
         recyclerViewSelectStaff = findViewById(R.id.recyclerViewSelectStaff);
         btnConfirmSelection = findViewById(R.id.btnConfirmSelection);
@@ -52,6 +59,7 @@ public class SelectRescueStaffActivity extends AppCompatActivity {
 
         btnConfirmSelection.setOnClickListener(view -> {
             if (selectedStaff != null) {
+                updateRescueStatus(selectedStaff.getId());
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("selected_staff_id", selectedStaff.getId());
                 setResult(RESULT_OK, resultIntent);
@@ -71,8 +79,12 @@ public class SelectRescueStaffActivity extends AppCompatActivity {
                 adapter = new RescueStaffAdapter(rescueStaffList, new RescueStaffAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(RescueStaff staff) {
-                        selectedStaff = staff;
-                        btnConfirmSelection.setVisibility(View.VISIBLE);
+                        if (selectedStaff.isAvailable()) {
+                            selectedStaff = staff;
+                            btnConfirmSelection.setVisibility(View.VISIBLE);
+                        } else {
+                            Toast.makeText(SelectRescueStaffActivity.this, "Staff is not available", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 recyclerViewSelectStaff.setAdapter(adapter);
@@ -96,16 +108,6 @@ public class SelectRescueStaffActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK) {
-            String selectedStaffId = data.getStringExtra("selected_staff_id");
-            if (selectedStaffId != null) {
-                updateRescueStatus(selectedStaffId);
-            }
-        }
-    }
 
     private void updateRescueStatus(String staffId) {
         // TODO: Call API to update status
@@ -113,6 +115,21 @@ public class SelectRescueStaffActivity extends AppCompatActivity {
         rescueStaffSvc.assignRescueStaff(new AssignReq(rescueId, staffId), new ApiCallback<BaseResp<RescueAssign>>() {
             @Override
             public void onSuccess(BaseResp<RescueAssign> response) {
+                Toast.makeText(SelectRescueStaffActivity.this, "Rescue assigned to Staff ID: " + staffId, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(SelectRescueStaffActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RescueUpdate body = new RescueUpdate(RescueStatus.APPROVED.getValue());
+
+        // update rescue status
+        rescueSvc.updateRescueReq(rescueId, body, new ApiCallback<BaseResp<RescueReq>>() {
+            @Override
+            public void onSuccess(BaseResp<RescueReq> response) {
                 Toast.makeText(SelectRescueStaffActivity.this, "Rescue assigned to Staff ID: " + staffId, Toast.LENGTH_SHORT).show();
             }
 

@@ -47,6 +47,24 @@ public class RequestListFragment extends Fragment {
 
         Log.d("RequestListFragment", "isAdmin: " + userManager.isAdmin());
 
+        loadData();
+
+        // Xử lý sự kiện nút "Trở về Home"
+        Button btnBackToHome = view.findViewById(R.id.btnBackToHome);
+        btnBackToHome.setOnClickListener(v -> {
+            requireActivity().finish();
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    public void loadData() {
         if (userManager.isAdmin()) {
             // Lấy danh sách yêu cầu từ API
             rescueSvc.getAdminRescueReq(new ApiCallback<BaseResp<List<RescueReq>>>() {
@@ -94,13 +112,5 @@ public class RequestListFragment extends Fragment {
                 }
             });
         }
-
-        // Xử lý sự kiện nút "Trở về Home"
-        Button btnBackToHome = view.findViewById(R.id.btnBackToHome);
-        btnBackToHome.setOnClickListener(v -> {
-            requireActivity().finish();
-        });
-
-        return view;
     }
 }

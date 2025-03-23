@@ -8,9 +8,11 @@ import android.widget.Button;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.constants.RescueStatus;
 import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.services.RescueStaffSvc;
@@ -27,7 +29,7 @@ import java.util.List;
 
 public class RescueDetailActivity extends AppCompatActivity {
 
-    private TextView tvTitle, tvDescription, tvPhone, tvAddress, tvVehicleBrand, tvVehicleType, tvVehicleInfo;
+    private TextView tvTitle, tvDescription, tvPhone, tvAddress, tvVehicleBrand, tvVehicleType, tvVehicleInfo, tvStatus;
     private Button btnBack, btnProcess;
 
     private RescueSvc rescueSvc;
@@ -35,6 +37,7 @@ public class RescueDetailActivity extends AppCompatActivity {
     private UserManager userManager;
     private RescueStaffAdapter staffAdapter;
     private RecyclerView recyclerView;
+    private String rescueReqId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,47 +54,19 @@ public class RescueDetailActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         btnProcess = findViewById(R.id.btnProcess);
         recyclerView = findViewById(R.id.recyclerViewRescueStaff);
+        tvStatus = findViewById(R.id.textStatus);
 
+        // Set LayoutManager
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Retrieve data from intent
-        String rescueReqId = (String) getIntent().getSerializableExtra("RESCUE_REQUEST_ID");
+        rescueReqId = (String) getIntent().getSerializableExtra("RESCUE_REQUEST_ID");
 
         rescueSvc = new RescueSvc(RescueDetailActivity.this);
         rescueStaffSvc = new RescueStaffSvc(RescueDetailActivity.this);
         userManager = new UserManager(RescueDetailActivity.this);
 
-        if (userManager.isAdmin()) {
-            btnProcess.setVisibility(View.VISIBLE);
-        } else {
-            btnProcess.setVisibility(View.GONE);
-        }
-
-        // Get rescue request by ID
-        rescueSvc.getRescueReqById(rescueReqId, new ApiCallback<BaseResp<RescueReq>>() {
-            @Override
-            public void onSuccess(BaseResp<RescueReq> response) {
-                if (response.getData() != null) {
-                    RescueReq rescueReq = response.getData();
-                    tvTitle.setText(StringUtils.decodeUnicode(rescueReq.getTitle()));
-                    tvDescription.setText(rescueReq.getDescription());
-                    tvPhone.setText(rescueReq.getContact());
-                    tvAddress.setText(rescueReq.getAddress());
-                    tvVehicleBrand.setText(rescueReq.getMetadata().getVehicleBrand());
-                    tvVehicleType.setText(rescueReq.getMetadata().getVehicleType());
-                    tvVehicleInfo.setText(rescueReq.getMetadata().getVehicleInfo());
-                }
-            }
-
-            @Override
-            public void onError(String message) {
-                // Show error message
-                tvTitle.setText("Error");
-                tvDescription.setText(message);
-            }
-        });
-
-        // get staff assigns
-        setupRescueStaffAssign();
+        loadData();
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,8 +86,8 @@ public class RescueDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void setupRescueStaffAssign () {
-        rescueStaffSvc.getRescueStaffAssigns(new ApiCallback<BaseResp<List<RescueAssign>>>() {
+    private void setupRescueStaffAssign() {
+        rescueStaffSvc.getRescueAssigns(rescueReqId, new ApiCallback<BaseResp<List<RescueAssign>>>() {
             @Override
             public void onSuccess(BaseResp<List<RescueAssign>> response) {
                 var data = response.getData();
@@ -120,6 +95,7 @@ public class RescueDetailActivity extends AppCompatActivity {
                 for (var assign : data) {
                     rescueStaffList.add(assign.getStaff());
                 }
+                Log.d("RescueStaffActivity", "RescueStaffList: " + rescueStaffList.size());
                 staffAdapter = new RescueStaffAdapter(rescueStaffList);
                 recyclerView.setAdapter(staffAdapter);
             }
@@ -133,5 +109,41 @@ public class RescueDetailActivity extends AppCompatActivity {
                 Log.e("RescueStaffActivity", message);
             }
         });
+    }
+
+    private void loadData() {
+        // Get rescue request by ID
+        rescueSvc.getRescueReqById(rescueReqId, new ApiCallback<BaseResp<RescueReq>>() {
+            @Override
+            public void onSuccess(BaseResp<RescueReq> response) {
+                if (response.getData() != null) {
+                    RescueReq rescueReq = response.getData();
+                    tvTitle.setText(StringUtils.decodeUnicode(rescueReq.getTitle()));
+                    tvDescription.setText(rescueReq.getDescription());
+                    tvPhone.setText(rescueReq.getContact());
+                    tvAddress.setText(rescueReq.getAddress());
+                    tvVehicleBrand.setText(rescueReq.getMetadata().getVehicleBrand());
+                    tvVehicleType.setText(rescueReq.getMetadata().getVehicleType());
+                    tvVehicleInfo.setText(rescueReq.getMetadata().getVehicleInfo());
+
+                    // Set status
+                    RescueStatus status = RescueStatus.values()[rescueReq.getStatus()];
+                    tvStatus.setText(status.toString());
+
+                    if (rescueReq.getStatus() == RescueStatus.PENDING.getValue() && userManager.isAdmin()) {
+                        btnProcess.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                // Show error message
+                tvTitle.setText("Error");
+                tvDescription.setText(message);
+            }
+        });
+
+        setupRescueStaffAssign();
     }
 }

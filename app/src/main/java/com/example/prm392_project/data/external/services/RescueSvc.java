@@ -7,6 +7,7 @@ import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.interfaces.IRescueSvc;
 import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.response.RescueReqBody;
+import com.example.prm392_project.data.external.response.RescueUpdate;
 import com.example.prm392_project.data.models.RescueReq;
 
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Body;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public class RescueSvc {
     private IRescueSvc rescueSvc;
@@ -90,6 +94,25 @@ public class RescueSvc {
                     callback.onSuccess(response.body());
                 } else {
                     callback.onError("Get rescue request by ID failed: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResp<RescueReq>> call, Throwable t) {
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    public void updateRescueReq(String id, RescueUpdate request, ApiCallback<BaseResp<RescueReq>> callback) {
+        Call<BaseResp<RescueReq>> call = rescueSvc.updateRescueReq(id, request);
+        call.enqueue(new Callback<BaseResp<RescueReq>>() {
+            @Override
+            public void onResponse(Call<BaseResp<RescueReq>> call, Response<BaseResp<RescueReq>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Update rescue request failed: " + response.message());
                 }
             }
 

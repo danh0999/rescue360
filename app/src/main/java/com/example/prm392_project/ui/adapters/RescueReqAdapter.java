@@ -142,6 +142,8 @@ public class RescueReqAdapter extends RecyclerView.Adapter<RescueReqAdapter.Resc
                 colorResId = R.color.status_pending;
             } else if (status == RescueStatus.IN_PROGRESS.getValue()) {
                 colorResId = R.color.status_in_progress;
+            } else if (status == RescueStatus.APPROVED.getValue()) {
+                colorResId = R.color.status_approved;
             } else if (status == RescueStatus.COMPLETED.getValue()) {
                 colorResId = R.color.status_completed;
             } else if (status == RescueStatus.CANCELLED.getValue()) {
@@ -172,6 +174,8 @@ public class RescueReqAdapter extends RecyclerView.Adapter<RescueReqAdapter.Resc
                 return "Completed";
             case "cancelled":
                 return "Cancelled";
+            case "approved":
+                return "Approved";
             default:
                 return status;
         }

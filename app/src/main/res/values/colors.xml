@@ -16,7 +16,8 @@
     <color name="red">#F44336</color>
     <color name="yellow">#FFEB3B</color>
 
-    <color name="status_pending">#FFA500</color>    <!-- Orange -->
+    <color name="status_pending">#FFA500</color>    !-- Orange -->
+    <color name="status_approved">#6200EE</color>    <!-- Purple -->
     <color name="status_in_progress">#1E90FF</color> <!-- Blue -->
     <color name="status_completed">#008000</color>  <!-- Green -->
     <color name="status_cancelled">#FF0000</color>  <!-- Red -->

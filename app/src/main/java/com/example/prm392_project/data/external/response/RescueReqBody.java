@@ -1,5 +1,6 @@
 package com.example.prm392_project.data.external.response;
 
+import com.example.prm392_project.constants.RescueStatus;
 import com.example.prm392_project.data.models.RescueReqMetadata;
 
 public class RescueReqBody {
@@ -10,6 +11,7 @@ public class RescueReqBody {
     private String address;
     private String contact;
     private RescueReqMetadata metadata;
+    private int status;
 
     public RescueReqBody(String title, String description, double latitude, double longitude, String address, String contact, RescueReqMetadata metadata) {
         this.title = title;
@@ -19,6 +21,10 @@ public class RescueReqBody {
         this.address = address;
         this.contact = contact;
         this.metadata = metadata;
+    }
+
+    public RescueReqBody(int status) {
+        this.status = status;
     }
 
     public String getTitle() {

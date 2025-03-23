@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TokenManager tokenManager;
     private UserManager userManager;
 
-    private Button btnRequests;
+    private Button btnRequests, btnStaff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +108,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         btnRequests = findViewById(R.id.btn_requests);
         btnRequests.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, RequestListActivity.class);
+            startActivity(intent);
+        });
+
+        Button btnStaff = findViewById(R.id.btn_staff);
+        btnStaff.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, RequestListActivity.class);
+            intent.putExtra("STAFF", true);
             startActivity(intent);
         });
     }

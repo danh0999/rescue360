@@ -22,19 +22,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Search bar -->
-    <EditText
-        android:id="@+id/search_bar"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="-15dp"
-        android:background="@drawable/border_linear"
-        android:drawableStart="@android:drawable/ic_menu_search"
-        android:elevation="4dp"
-        android:hint="Tìm dịch vụ"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <!-- Service Buttons -->
     <LinearLayout
@@ -47,7 +34,8 @@
         android:orientation="horizontal"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <!-- Hết xăng -->
         <LinearLayout
@@ -226,6 +214,20 @@
             app:backgroundTint="@null"/>
     </LinearLayout>
 
+    <!-- Button for Staff -->
+    <Button
+        android:id="@+id/btn_staff"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/purple_700"
+        android:textColor="@color/white"
+        android:text="Nhân viên"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/utility_buttons"
+        android:visibility="visible"/>
+
     <!-- MapView Placeholder -->
     <fragment
         android:id="@+id/map_view"
@@ -235,7 +237,7 @@
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/utility_buttons" />
+        app:layout_constraintTop_toBottomOf="@id/btn_staff" />
 
 <!--     Bottom Navigation-->
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -3,29 +3,42 @@ package com.example.prm392_project.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.data.internal.UserManager;
 import com.example.prm392_project.ui.fragments.RequestListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class RequestListActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
+    private UserManager userManager;
+    private boolean isStaff;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_list);
+        userManager = new UserManager(this);
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_request);
+
+        if (!userManager.isAdmin()) {
+            bottomNavigationView.setVisibility(View.GONE);
+        }
         setupBottomNavigation();
+
+        isStaff = getIntent().getBooleanExtra("STAFF", false);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new RequestListFragment())
+                    .replace(R.id.fragment_container, new RequestListFragment(isStaff))
                     .commit();
         }
     }

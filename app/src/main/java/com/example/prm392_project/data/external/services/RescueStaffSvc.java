@@ -7,6 +7,8 @@ import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.interfaces.IRescueStaffSvc;
 import com.example.prm392_project.data.external.response.AssignReq;
 import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.response.RescueUpdate;
+import com.example.prm392_project.data.external.response.StaffUpdate;
 import com.example.prm392_project.data.models.RescueAssign;
 import com.example.prm392_project.data.models.RescueStaff;
 
@@ -16,6 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public class RescueStaffSvc {
     private IRescueStaffSvc rescueStaffSvc;
@@ -103,6 +106,41 @@ public class RescueStaffSvc {
         });
     }
 
+    public void updateRescueStaff(String id, StaffUpdate rescueStaff, ApiCallback<BaseResp> callback) {
+        Call<BaseResp> call = rescueStaffSvc.updateRescueStaff(id, rescueStaff);
+        call.enqueue(new Callback<BaseResp>() {
+            @Override
+            public void onResponse(Call<BaseResp> call, Response<BaseResp> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Update rescue staff failed: " + response.message());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<BaseResp> call, Throwable t) {
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
 
+    public void completeRescueStaff(String rescueReqId, ApiCallback<BaseResp> callback) {
+        Call<BaseResp> call = rescueStaffSvc.completeRescueStaff(rescueReqId);
+        call.enqueue(new Callback<BaseResp>() {
+            @Override
+            public void onResponse(Call<BaseResp> call, Response<BaseResp> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Complete rescue staff failed: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResp> call, Throwable t) {
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
 }

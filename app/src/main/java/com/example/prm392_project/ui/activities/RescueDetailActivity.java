@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,8 @@ import com.example.prm392_project.R;
 import com.example.prm392_project.constants.RescueStatus;
 import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.response.RescueUpdate;
+import com.example.prm392_project.data.external.response.StaffUpdate;
 import com.example.prm392_project.data.external.services.RescueStaffSvc;
 import com.example.prm392_project.data.external.services.RescueSvc;
 import com.example.prm392_project.data.internal.UserManager;
@@ -30,7 +33,7 @@ import java.util.List;
 public class RescueDetailActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvDescription, tvPhone, tvAddress, tvVehicleBrand, tvVehicleType, tvVehicleInfo, tvStatus;
-    private Button btnBack, btnProcess;
+    private Button btnBack, btnProcess, btnComplete, btnInProgress;
 
     private RescueSvc rescueSvc;
     private RescueStaffSvc rescueStaffSvc;
@@ -38,6 +41,8 @@ public class RescueDetailActivity extends AppCompatActivity {
     private RescueStaffAdapter staffAdapter;
     private RecyclerView recyclerView;
     private String rescueReqId;
+    private List<RescueStaff> staffList;
+    private RescueReq rescueReq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,8 @@ public class RescueDetailActivity extends AppCompatActivity {
         btnProcess = findViewById(R.id.btnProcess);
         recyclerView = findViewById(R.id.recyclerViewRescueStaff);
         tvStatus = findViewById(R.id.textStatus);
+        btnComplete = findViewById(R.id.btnComplete);
+        btnInProgress = findViewById(R.id.btnInProgress);
 
         // Set LayoutManager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -84,6 +91,20 @@ public class RescueDetailActivity extends AppCompatActivity {
                 startActivityForResult(intent, 100);
             }
         });
+
+        btnComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                completeRescue();
+            }
+        });
+
+        btnInProgress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateInProgress();
+            }
+        });
     }
 
     private void setupRescueStaffAssign() {
@@ -91,11 +112,26 @@ public class RescueDetailActivity extends AppCompatActivity {
             @Override
             public void onSuccess(BaseResp<List<RescueAssign>> response) {
                 var data = response.getData();
+                var user = userManager.getUser();
                 var rescueStaffList = new ArrayList<RescueStaff>();
+                var isStaff = false;
                 for (var assign : data) {
+                    if (assign.getStaff().getUser().getId().equals(user.getId())) {
+                        isStaff = true;
+                    }
                     rescueStaffList.add(assign.getStaff());
                 }
-                Log.d("RescueStaffActivity", "RescueStaffList: " + rescueStaffList.size());
+                if (isStaff) {
+                    if (rescueReq.getStatus() == RescueStatus.IN_PROGRESS.getValue()) {
+                        btnComplete.setVisibility(View.VISIBLE);
+                        btnInProgress.setVisibility(View.GONE);
+                    } else if (rescueReq.getStatus() == RescueStatus.PENDING.getValue() || rescueReq.getStatus() == RescueStatus.APPROVED.getValue()) {
+                        btnInProgress.setVisibility(View.VISIBLE);
+                        btnComplete.setVisibility(View.GONE);
+                    }
+                }
+
+                staffList = rescueStaffList;
                 staffAdapter = new RescueStaffAdapter(rescueStaffList);
                 recyclerView.setAdapter(staffAdapter);
             }
@@ -117,7 +153,7 @@ public class RescueDetailActivity extends AppCompatActivity {
             @Override
             public void onSuccess(BaseResp<RescueReq> response) {
                 if (response.getData() != null) {
-                    RescueReq rescueReq = response.getData();
+                    rescueReq = response.getData();
                     tvTitle.setText(StringUtils.decodeUnicode(rescueReq.getTitle()));
                     tvDescription.setText(rescueReq.getDescription());
                     tvPhone.setText(rescueReq.getContact());
@@ -145,5 +181,39 @@ public class RescueDetailActivity extends AppCompatActivity {
         });
 
         setupRescueStaffAssign();
+    }
+
+    private void completeRescue() {
+        rescueStaffSvc.completeRescueStaff(rescueReqId, new ApiCallback<BaseResp>() {
+            @Override
+            public void onSuccess(BaseResp response) {
+                Toast.makeText(RescueDetailActivity.this, "Rescue request has been completed", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onError(String message) {
+                // Show error message
+                Log.e("RescueDetailActivity", message);
+            }
+        });
+    }
+
+    private void updateInProgress() {
+        RescueUpdate rescueReq = new RescueUpdate(RescueStatus.IN_PROGRESS.getValue());
+
+        rescueSvc.updateRescueReq(rescueReqId, rescueReq, new ApiCallback<BaseResp<RescueReq>>() {
+            @Override
+            public void onSuccess(BaseResp<RescueReq> response) {
+                Toast.makeText(RescueDetailActivity.this, "Rescue request is in progress", Toast.LENGTH_SHORT).show();
+                loadData();
+            }
+
+            @Override
+            public void onError(String message) {
+                // Show error message
+                Log.e("RescueDetailActivity", message);
+            }
+        });
     }
 }

@@ -126,6 +126,35 @@
                 android:hint="Nhập thông tin xe( màu, biển số,..)"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/tv_image_upload_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="6dp"
+                android:text="Hình ảnh sự cố (tùy chọn)"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnPickImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/gray"
+                android:text="Chọn hình ảnh"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/imagePreview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="12dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
             <!-- Button gọi cứu hộ -->
             <Button
                 android:id="@+id/btnCall"

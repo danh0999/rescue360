@@ -92,7 +92,7 @@ public class ServiceOrderActivity extends AppCompatActivity implements OnMapRead
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api";
     private static final String TYPE_AUTOCOMPLETE = "/place/autocomplete/json";
     private static final String TYPE_DETAILS = "/place/details/json";
-    private static final String API_KEY = "AIzaSyDjgywNFOTSo5iWGB2B3mm_c4Qsn8FFlR0"; // Replace with your actual API key
+    private static final String API_KEY = "API_KEY"; // Replace with your actual API key
 
     // Debounce settings
     private static final long DEBOUNCE_DELAY_MS = 250; // Delay in milliseconds

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -16,7 +17,7 @@
             android:padding="16dp">
 
             <!-- Tiêu đề -->
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,7 +29,7 @@
                 android:layout_gravity="center"/>
 
             <!-- Vị trí hiện tại -->
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_current_location_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,8 +41,17 @@
 
             <!-- Map here -->
 
+            <!-- MapView Placeholder -->
+            <fragment
+                android:id="@+id/map_view"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp" />
+
             <!-- Thông tin cơ bản -->
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_owner_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,41 +62,74 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/editDescription"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/descriptionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@android:color/white"
-                android:padding="12dp"
-                android:inputType="textMultiLine"
-                android:lines="5"
-                android:hint="Nhập mô tả sự cố"
-                android:textSize="14sp"
-                android:gravity="top"/>
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Nhập mô tả sự cố">
 
-            <EditText
-                android:id="@+id/editPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:background="@android:color/white"
-                android:padding="12dp"
-                android:hint="Nhập số điện thoại"
-                android:textSize="14sp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:gravity="top"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/editAddress"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@android:color/white"
-                android:padding="12dp"
-                android:hint="Nhập địa chỉ hiện tại"
-                android:textSize="14sp" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Nhập số điện thoại">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical"
+                android:baselineAligned="false">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addressLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    app:endIconMode="clear_text"
+                    android:hint="Nhập địa chỉ hiện tại">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/editAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPostalAddress"
+                        android:imeOptions="actionNext"
+                        android:completionThreshold="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <ImageButton
+                    android:id="@+id/btnCurrentLocation"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Get current location"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_menu_mylocation" />
+            </LinearLayout>
 
             <!-- Thông tin xe -->
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_vehicle_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,37 +139,49 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/editVehicleBrand"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/vehicleBrandLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@android:color/white"
-                android:padding="12dp"
-                android:hint="Nhập hãng xe"
-                android:textSize="14sp" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Nhập hãng xe">
 
-            <EditText
-                android:id="@+id/editVehicleType"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editVehicleBrand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/vehicleTypeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@android:color/white"
-                android:padding="12dp"
-                android:hint="Nhập loại xe"
-                android:textSize="14sp" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Nhập loại xe">
 
-            <EditText
-                android:id="@+id/editVehicleInfo"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editVehicleType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/vehicleInfoLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@android:color/white"
-                android:padding="12dp"
-                android:hint="Nhập thông tin xe( màu, biển số,..)"
-                android:textSize="14sp" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Nhập thông tin xe( màu, biển số,..)">
 
-            <TextView
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editVehicleInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_image_upload_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -137,12 +192,12 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPickImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:backgroundTint="@color/gray"
+                app:backgroundTint="@color/gray"
                 android:text="Chọn hình ảnh"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
@@ -156,12 +211,12 @@
                 android:visibility="gone" />
 
             <!-- Button gọi cứu hộ -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="@color/orange"
+                app:backgroundTint="@color/orange"
                 android:padding="16dp"
                 android:text="GỌI CỨU HỘ"
                 android:textAllCaps="true"
@@ -169,12 +224,12 @@
                 android:textSize="16sp"/>
 
             <!-- Button quay trở về -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnBack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="@color/gray_dark"
+                app:backgroundTint="@color/gray_dark"
                 android:padding="16dp"
                 android:text="QUAY TRỞ VỀ"
                 android:textAllCaps="true"
@@ -183,10 +238,11 @@
         </LinearLayout>
     </ScrollView>
 
-<ProgressBar
-    android:id="@+id/progressBar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:visibility="gone" />
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone" />
 </FrameLayout>

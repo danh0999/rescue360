@@ -10,6 +10,7 @@ import android.widget.Toast;
 import android.widget.LinearLayout;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,11 +30,18 @@ import com.example.prm392_project.data.models.RescueReqMetadata;
 import com.example.prm392_project.data.models.RescueStaff;
 import com.example.prm392_project.ui.adapters.RescueStaffAdapter;
 import com.example.prm392_project.utils.StringUtils;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RescueDetailActivity extends AppCompatActivity {
+public class RescueDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private GoogleMap mMap;
 
     private TextView tvTitle, tvDescription, tvPhone, tvAddress, tvVehicleBrand, tvVehicleType, tvVehicleInfo, tvStatus;
     private Button btnBack, btnProcess, btnComplete, btnInProgress;
@@ -75,6 +83,7 @@ public class RescueDetailActivity extends AppCompatActivity {
         rescueStaffSvc = new RescueStaffSvc(RescueDetailActivity.this);
         userManager = new UserManager(RescueDetailActivity.this);
 
+        initMap();
         loadData();
 
         btnBack.setOnClickListener(v -> finish());
@@ -128,6 +137,7 @@ public class RescueDetailActivity extends AppCompatActivity {
         });
     }
 
+
     private void loadData() {
         rescueSvc.getRescueReqById(rescueReqId, new ApiCallback<BaseResp<RescueReq>>() {
             @Override
@@ -151,6 +161,10 @@ public class RescueDetailActivity extends AppCompatActivity {
                         btnProcess.setVisibility(View.VISIBLE);
                     }
 
+                    updateMapLocation(
+                            new LatLng(rescueReq.getLatitude(), rescueReq.getLongitude()),
+                            StringUtils.decodeUnicode(rescueReq.getTitle())
+                    );
                     renderImagesFromMetadata(rescueReq.getMetadata());
                 }
             }
@@ -164,6 +178,32 @@ public class RescueDetailActivity extends AppCompatActivity {
 
         setupRescueStaffAssign();
     }
+
+    private void initMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map_view);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Set initial map position (Vietnam)
+        LatLng vietnam = new LatLng(16.047079, 108.206230);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(vietnam, 5));
+    }
+
+    private void updateMapLocation(LatLng location, String title) {
+        if (mMap != null && location != null) {
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions().position(location).title(title));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+        }
+    }
+
 
     private void renderImagesFromMetadata(RescueReqMetadata metadata) {
         List<String> imageList = metadata.getImageList();

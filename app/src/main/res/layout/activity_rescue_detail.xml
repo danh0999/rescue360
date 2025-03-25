@@ -40,15 +40,13 @@
             android:textSize="16dp"
             android:layout_marginHorizontal="12dp"
             android:layout_marginVertical="8dp"
-            android:layout_gravity="end"
-            />
+            android:layout_gravity="end" />
 
         <!-- Contact Information Group -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            >
+            android:layout_margin="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -123,8 +121,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            >
+            android:layout_margin="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -194,13 +191,42 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Images Group -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imagesCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Incident Images"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/teal_700"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:id="@+id/imageContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <!-- Rescue Information Group -->
         <androidx.cardview.widget.CardView
             android:id="@+id/staffCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-           >
+            android:layout_margin="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -307,7 +333,6 @@
                 android:layout_marginHorizontal="8dp"
                 android:stateListAnimator="@null"
                 android:elevation="2dp" />
-
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

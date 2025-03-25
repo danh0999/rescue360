@@ -7,22 +7,25 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.prm392_project.R;
 import com.example.prm392_project.constants.RescueStatus;
 import com.example.prm392_project.data.external.interfaces.ApiCallback;
 import com.example.prm392_project.data.external.response.BaseResp;
 import com.example.prm392_project.data.external.response.RescueUpdate;
-import com.example.prm392_project.data.external.response.StaffUpdate;
 import com.example.prm392_project.data.external.services.RescueStaffSvc;
 import com.example.prm392_project.data.external.services.RescueSvc;
 import com.example.prm392_project.data.internal.UserManager;
 import com.example.prm392_project.data.models.RescueAssign;
 import com.example.prm392_project.data.models.RescueReq;
+import com.example.prm392_project.data.models.RescueReqMetadata;
 import com.example.prm392_project.data.models.RescueStaff;
 import com.example.prm392_project.ui.adapters.RescueStaffAdapter;
 import com.example.prm392_project.utils.StringUtils;
@@ -34,7 +37,7 @@ public class RescueDetailActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvDescription, tvPhone, tvAddress, tvVehicleBrand, tvVehicleType, tvVehicleInfo, tvStatus;
     private Button btnBack, btnProcess, btnComplete, btnInProgress;
-
+    private LinearLayout imageContainer;
     private RescueSvc rescueSvc;
     private RescueStaffSvc rescueStaffSvc;
     private UserManager userManager;
@@ -62,11 +65,10 @@ public class RescueDetailActivity extends AppCompatActivity {
         tvStatus = findViewById(R.id.textStatus);
         btnComplete = findViewById(R.id.btnComplete);
         btnInProgress = findViewById(R.id.btnInProgress);
+        imageContainer = findViewById(R.id.imageContainer);
 
-        // Set LayoutManager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Retrieve data from intent
         rescueReqId = (String) getIntent().getSerializableExtra("RESCUE_REQUEST_ID");
 
         rescueSvc = new RescueSvc(RescueDetailActivity.this);
@@ -75,36 +77,17 @@ public class RescueDetailActivity extends AppCompatActivity {
 
         loadData();
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // Close this activity
-            }
+        btnBack.setOnClickListener(v -> finish());
+
+        btnProcess.setOnClickListener(v -> {
+            Intent intent = new Intent(RescueDetailActivity.this, SelectRescueStaffActivity.class);
+            intent.putExtra("RESCUE_REQUEST_ID", rescueReqId);
+            startActivityForResult(intent, 100);
         });
 
-        btnProcess.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Go to SelectRescueStaffActivity
-                Intent intent = new Intent(RescueDetailActivity.this, SelectRescueStaffActivity.class);
-                intent.putExtra("RESCUE_REQUEST_ID", rescueReqId);
-                startActivityForResult(intent, 100);
-            }
-        });
+        btnComplete.setOnClickListener(v -> completeRescue());
 
-        btnComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                completeRescue();
-            }
-        });
-
-        btnInProgress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateInProgress();
-            }
-        });
+        btnInProgress.setOnClickListener(v -> updateInProgress());
     }
 
     private void setupRescueStaffAssign() {
@@ -140,15 +123,12 @@ public class RescueDetailActivity extends AppCompatActivity {
             public void onError(String message) {
                 staffAdapter = new RescueStaffAdapter(new ArrayList<>());
                 recyclerView.setAdapter(staffAdapter);
-
-                // Show error message
                 Log.e("RescueStaffActivity", message);
             }
         });
     }
 
     private void loadData() {
-        // Get rescue request by ID
         rescueSvc.getRescueReqById(rescueReqId, new ApiCallback<BaseResp<RescueReq>>() {
             @Override
             public void onSuccess(BaseResp<RescueReq> response) {
@@ -162,25 +142,60 @@ public class RescueDetailActivity extends AppCompatActivity {
                     tvVehicleType.setText(rescueReq.getMetadata().getVehicleType());
                     tvVehicleInfo.setText(rescueReq.getMetadata().getVehicleInfo());
 
-                    // Set status
+                    // Set status with formatting and color
                     RescueStatus status = RescueStatus.values()[rescueReq.getStatus()];
-                    tvStatus.setText(status.toString());
+                    tvStatus.setText(formatStatus(status.name()));
+                    setStatusColor(rescueReq.getStatus());
 
                     if (rescueReq.getStatus() == RescueStatus.PENDING.getValue() && userManager.isAdmin()) {
                         btnProcess.setVisibility(View.VISIBLE);
                     }
+
+                    renderImagesFromMetadata(rescueReq.getMetadata());
                 }
             }
 
             @Override
             public void onError(String message) {
-                // Show error message
                 tvTitle.setText("Error");
                 tvDescription.setText(message);
             }
         });
 
         setupRescueStaffAssign();
+    }
+
+    private void renderImagesFromMetadata(RescueReqMetadata metadata) {
+        List<String> imageList = metadata.getImageList();
+        if (imageList != null && !imageList.isEmpty()) {
+            imageContainer.removeAllViews();
+            for (String imageUrl : imageList) {
+                addImageToContainer(imageUrl);
+            }
+            imageContainer.setVisibility(View.VISIBLE);
+            findViewById(R.id.imagesCardView).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.imagesCardView).setVisibility(View.GONE);
+        }
+    }
+
+    private void addImageToContainer(String imageUrl) {
+        ImageView imageView = new ImageView(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                500
+        );
+        layoutParams.setMargins(0, 0, 0, 16);
+        imageView.setLayoutParams(layoutParams);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        Glide.with(this)
+                .load(imageUrl)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
+                .into(imageView);
+
+        imageContainer.addView(imageView);
     }
 
     private void completeRescue() {
@@ -193,7 +208,6 @@ public class RescueDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                // Show error message
                 Log.e("RescueDetailActivity", message);
             }
         });
@@ -211,9 +225,48 @@ public class RescueDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                // Show error message
                 Log.e("RescueDetailActivity", message);
             }
         });
+    }
+
+    // New method to set status color
+    private void setStatusColor(int status) {
+        int colorResId;
+        if (status == RescueStatus.PENDING.getValue()) {
+            colorResId = R.color.status_pending;
+        } else if (status == RescueStatus.IN_PROGRESS.getValue()) {
+            colorResId = R.color.status_in_progress;
+        } else if (status == RescueStatus.APPROVED.getValue()) {
+            colorResId = R.color.status_approved;
+        } else if (status == RescueStatus.COMPLETED.getValue()) {
+            colorResId = R.color.status_completed;
+        } else if (status == RescueStatus.CANCELLED.getValue()) {
+            colorResId = R.color.status_cancelled;
+        } else {
+            colorResId = R.color.status_default;
+        }
+
+        tvStatus.setTextColor(getResources().getColor(colorResId, null));
+    }
+
+    // New method to format status text
+    private String formatStatus(String status) {
+        if (status == null) return "Unknown";
+
+        switch (status.toLowerCase()) {
+            case "pending":
+                return "Pending";
+            case "in_progress":
+                return "In Progress";
+            case "completed":
+                return "Completed";
+            case "cancelled":
+                return "Cancelled";
+            case "approved":
+                return "Approved";
+            default:
+                return status;
+        }
     }
 }

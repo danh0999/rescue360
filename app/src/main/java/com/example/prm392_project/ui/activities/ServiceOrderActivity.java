@@ -190,37 +190,32 @@ public class ServiceOrderActivity extends AppCompatActivity {
 
     private void uploadImage(String description, String phone, String address, String vehicleBrand, String vehicleType, String vehicleInfo) {
         try {
-            String filePath = getRealPathFromURI(selectedImageUri);
-            if (filePath == null) {
-                Toast.makeText(this, "Cannot retrieve file path", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            File file = new File(filePath);
-            if (!file.exists() || !file.canRead()) {
-                Toast.makeText(this, "Cannot access file", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Alternative method using InputStream
+            // Get InputStream directly from URI
             InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
             if (inputStream == null) {
                 Toast.makeText(this, "Cannot open file input stream", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Determine MediaType
+            // Determine MIME type
             String mimeType = getContentResolver().getType(selectedImageUri);
             MediaType mediaType = MediaType.parse(mimeType != null ? mimeType : "image/jpeg");
 
-            // Create RequestBody from InputStream
+            // Convert InputStream to byte array
+            byte[] fileBytes = getBytes(inputStream);
+            inputStream.close(); // Close the stream after use
+
+            // Create RequestBody
             RequestBody requestFile = RequestBody.create(
                     MediaType.parse("multipart/form-data"),
-                    getBytes(inputStream)
+                    fileBytes
             );
 
-            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+            // Create MultipartBody.Part (use a generic filename if needed)
+            String fileName = "image_" + System.currentTimeMillis() + ".jpg";
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", fileName, requestFile);
 
+            // Upload the image
             uploadSvc.uploadImage(body, new ApiCallback<BaseResp<UploadResp>>() {
                 @Override
                 public void onSuccess(BaseResp<UploadResp> response) {
@@ -234,12 +229,13 @@ public class ServiceOrderActivity extends AppCompatActivity {
                     Toast.makeText(ServiceOrderActivity.this, "Upload image failed: " + message, Toast.LENGTH_SHORT).show();
                 }
             });
-        } catch (Exception e) {
+
+        } catch (IOException e) {
             Log.e("ServiceOrderActivity", "Upload error", e);
             Toast.makeText(this, "Error preparing file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
         }
     }
-
     // Utility method to convert InputStream to byte array
     private byte[] getBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();

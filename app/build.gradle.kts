@@ -80,4 +80,5 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     implementation("com.microsoft.signalr:signalr:7.0.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
 }

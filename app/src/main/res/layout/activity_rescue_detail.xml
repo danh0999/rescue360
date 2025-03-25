@@ -114,6 +114,23 @@
                     android:textColor="@color/dark_gray"
                     android:textSize="14sp"
                     android:paddingBottom="12dp" />
+
+                <!-- Map -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Map:"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+                <!-- MapView Placeholder -->
+                <fragment
+                    android:id="@+id/map_view"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

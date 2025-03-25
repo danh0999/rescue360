@@ -237,4 +237,23 @@ public class RescueSvc {
             }
         });
     }
+
+    public void getRescueInvoiceById(String id, ApiCallback<BaseResp<RescueInvoice>> callback) {
+        Call<BaseResp<RescueInvoice>> call = rescueSvc.getRescueInvoiceById(id);
+        call.enqueue(new Callback<BaseResp<RescueInvoice>>() {
+            @Override
+            public void onResponse(Call<BaseResp<RescueInvoice>> call, Response<BaseResp<RescueInvoice>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Get rescue invoice by ID failed: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResp<RescueInvoice>> call, Throwable t) {
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
 }

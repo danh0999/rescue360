@@ -36,6 +36,9 @@ public interface IRescueSvc {
     @GET("api/v1/rescue-req/summary")
     Call<BaseResp<RescueSummary>> getRescueReqSummary();
 
+    @GET("api/v1/rescue-invoice/{id}")
+    Call<BaseResp<RescueInvoice>> getRescueInvoiceById(@Path("id") String id);
+
     @GET("api/v1/rescue-invoice/user")
     Call<BaseResp<List<RescueInvoice>>> getUserRescueInvoice();
 

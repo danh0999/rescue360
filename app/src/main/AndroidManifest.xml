@@ -34,6 +34,9 @@
         <activity android:name=".ui.activities.SelectRescueStaffActivity"/>
         <activity android:name=".ui.activities.ConversationListActivity"/>
         <activity android:name=".ui.activities.ChatAdminActivity"/>
+        <activity android:name=".ui.activities.InvoiceDetailActivity"/>
+        <activity android:name=".ui.activities.CreateInvoiceActivity"/>
+        <activity android:name=".ui.activities.InvoiceSuccessActivity"/>
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true">

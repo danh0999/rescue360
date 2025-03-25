@@ -92,8 +92,7 @@ public class ServiceOrderActivity extends AppCompatActivity implements OnMapRead
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api";
     private static final String TYPE_AUTOCOMPLETE = "/place/autocomplete/json";
     private static final String TYPE_DETAILS = "/place/details/json";
-    private static final String API_KEY = "API_KEY"; // Replace with your actual API key
-
+    private static final String API_KEY = "AIzaSyAMxKaML_mVlolnK_X-fAkatOPKdvCeTW0";
     // Debounce settings
     private static final long DEBOUNCE_DELAY_MS = 250; // Delay in milliseconds
     private Runnable autocompleteRunnable;
@@ -342,6 +341,8 @@ public class ServiceOrderActivity extends AppCompatActivity implements OnMapRead
 
     private void getAutocompletePredictions(String input) {
         // Start showing progress or indicator if needed
+
+        Log.i("Places API", "Getting autocomplete predictions for: " + input);
 
         String url = PLACES_API_BASE + TYPE_AUTOCOMPLETE +
                 "?input=" + Uri.encode(input) +

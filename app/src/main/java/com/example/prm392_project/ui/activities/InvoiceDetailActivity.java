@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
 
 public class InvoiceDetailActivity extends AppCompatActivity {
 
-    private TextView tvInvoiceId, tvRescueReqId, tvCreatedBy, tvAmount, tvStatus, tvDescription, tvCreatedAt, tvUpdatedAt;
+    private TextView tvInvoiceId, tvRescueReqId, tvCreatedBy, tvAmount, tvStatus, tvDescription, tvCreatedAt;
     private Button btnMarkAsPaid, btnBack;
     private ProgressBar progressBar;
     private String invoiceId;
@@ -91,20 +91,39 @@ public class InvoiceDetailActivity extends AppCompatActivity {
     private void updateUI() {
         tvInvoiceId.setText(invoice.getId());
         tvRescueReqId.setText(invoice.getRescueReqId());
-        tvCreatedBy.setText(invoice.getCreatedByUser() != null ? invoice.getCreatedByUser().getUsername() : invoice.getCreatedBy());
-
+//        tvCreatedBy.setText(invoice.getCreatedByUser() != null ? invoice.getCreatedByUser().getUsername() : invoice.getCreatedBy());
+        if (invoice.getCreatedByUser() != null) {
+            tvCreatedBy.setText(invoice.getCreatedByUser().getFullName());
+        } else {
+            tvCreatedBy.setText(invoice.getCreatedBy());
+        }
         tvAmount.setText(StringUtils.moneySplitter(String.valueOf(invoice.getAmount())) + " VND");
 
-        tvStatus.setText(invoice.isPaid() ? "Paid" : "Unpaid");
+//        tvStatus.setText(invoice.isPaid() ? "Paid" : "Unpaid");
+        if (invoice.isPaid()) {
+            tvStatus.setText("Paid");
+        } else {
+            tvStatus.setText("Unpaid");
+        }
         setStatusColor(invoice.isPaid());
 
-        tvDescription.setText(invoice.getMetadata() != null ? invoice.getMetadata().getDescription() : "N/A");
+//        tvDescription.setText(invoice.getMetadata() != null ? invoice.getMetadata().getDescription() : "N/A");
+        if (invoice.getMetadata() != null) {
+            tvDescription.setText(invoice.getMetadata().getDescription());
+        } else {
+            tvDescription.setText("N/A");
+        }
         tvCreatedAt.setText(formatDate(invoice.getCreatedAt()));
-        tvUpdatedAt.setText(formatDate(invoice.getUpdatedAt()));
 
         // Show "Mark as Paid" button only if unpaid
-        btnMarkAsPaid.setVisibility(invoice.isPaid() ? View.GONE : View.VISIBLE);
+//        btnMarkAsPaid.setVisibility(invoice.isPaid() ? View.GONE : View.VISIBLE);
+        if (invoice.isPaid()) {
+            btnMarkAsPaid.setVisibility(View.GONE);
+        } else {
+            btnMarkAsPaid.setVisibility(View.VISIBLE);
+        }
     }
+
 
     private void setStatusColor(boolean isPaid) {
         int colorResId = isPaid ? R.color.status_completed : R.color.status_pending;

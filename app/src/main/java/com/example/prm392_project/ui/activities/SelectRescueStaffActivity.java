@@ -79,7 +79,7 @@ public class SelectRescueStaffActivity extends AppCompatActivity {
                 adapter = new RescueStaffAdapter(rescueStaffList, new RescueStaffAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(RescueStaff staff) {
-                        if (selectedStaff.isAvailable()) {
+                        if (staff.isAvailable()) {
                             selectedStaff = staff;
                             btnConfirmSelection.setVisibility(View.VISIBLE);
                         } else {

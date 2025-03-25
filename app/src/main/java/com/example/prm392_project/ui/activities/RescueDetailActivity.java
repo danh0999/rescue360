@@ -91,7 +91,8 @@ public class RescueDetailActivity extends AppCompatActivity implements OnMapRead
         btnProcess.setOnClickListener(v -> {
             Intent intent = new Intent(RescueDetailActivity.this, SelectRescueStaffActivity.class);
             intent.putExtra("RESCUE_REQUEST_ID", rescueReqId);
-            startActivityForResult(intent, 100);
+            startActivity(intent);
+            finish();
         });
 
         btnComplete.setOnClickListener(v -> completeRescue());
@@ -117,6 +118,7 @@ public class RescueDetailActivity extends AppCompatActivity implements OnMapRead
                     if (rescueReq.getStatus() == RescueStatus.IN_PROGRESS.getValue()) {
                         btnComplete.setVisibility(View.VISIBLE);
                         btnInProgress.setVisibility(View.GONE);
+
                     } else if (rescueReq.getStatus() == RescueStatus.PENDING.getValue() || rescueReq.getStatus() == RescueStatus.APPROVED.getValue()) {
                         btnInProgress.setVisibility(View.VISIBLE);
                         btnComplete.setVisibility(View.GONE);
@@ -243,6 +245,9 @@ public class RescueDetailActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onSuccess(BaseResp response) {
                 Toast.makeText(RescueDetailActivity.this, "Rescue request has been completed", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RescueDetailActivity.this, CreateInvoiceActivity.class);
+                intent.putExtra("RESCUE_REQUEST_ID", rescueReqId);
+                startActivity(intent);
                 finish();
             }
 

@@ -15,4 +15,20 @@ public class StringUtils {
         matcher.appendTail(decodedStr);
         return decodedStr.toString();
     }
+
+    public static String moneySplitter(String money) {
+        String[] parts = money.split("\\.");
+        String part1 = parts[0];
+        String part2 = parts[1];
+        String result = "";
+        int count = 0;
+        for (int i = part1.length() - 1; i >= 0; i--) {
+            count++;
+            result = part1.charAt(i) + result;
+            if (count % 3 == 0 && i != 0) {
+                result = "," + result;
+            }
+        }
+        return result + "." + part2;
+    }
 }

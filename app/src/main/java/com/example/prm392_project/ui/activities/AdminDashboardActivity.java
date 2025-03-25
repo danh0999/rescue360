@@ -2,15 +2,23 @@ package com.example.prm392_project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.prm392_project.data.external.interfaces.ApiCallback;
+import com.example.prm392_project.data.external.response.BaseResp;
+import com.example.prm392_project.data.external.response.RescueSummary;
+import com.example.prm392_project.data.external.services.RescueSvc;
+import com.example.prm392_project.utils.StringUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.prm392_project.R;
 import com.example.prm392_project.data.internal.TokenManager;
@@ -20,18 +28,27 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private ImageButton btnMenu;
+    private TextView tvTotalUsers, tvTotalRescueReqs, tvTotalStaffs, tvTotalRevenue;
+    private RescueSvc rescueSvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_dashboard);
 
+        rescueSvc = new RescueSvc(this);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
         btnMenu = findViewById(R.id.btnMenu);
 
+        tvTotalUsers = findViewById(R.id.tvTotalUsers);
+        tvTotalRescueReqs = findViewById(R.id.tvTotalRescueReqs);
+        tvTotalStaffs = findViewById(R.id.tvTotalStaffs);
+        tvTotalRevenue = findViewById(R.id.tvTotalRevenue);
+
         setupPopupMenu();
         setupBottomNavigation();
+        loadData();
     }
 
     private void setupPopupMenu() {
@@ -74,6 +91,24 @@ public class AdminDashboardActivity extends AppCompatActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+    }
+
+    private void loadData() {
+        rescueSvc.getRescueReqSummary(new ApiCallback<BaseResp<RescueSummary>>() {
+            @Override
+            public void onSuccess(BaseResp<RescueSummary> response) {
+                RescueSummary summary = response.getData();
+                tvTotalUsers.setText(String.valueOf(summary.getTotalUsers()));
+                tvTotalRescueReqs.setText(String.valueOf(summary.getTotalRescueReqs()));
+                tvTotalStaffs.setText(String.valueOf(summary.getTotalStaffs()));
+                tvTotalRevenue.setText(String.valueOf(StringUtils.moneySplitter(String.valueOf(summary.getTotalRevenue())) + " VND"));
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.e("AdminDashboardActivity", message);
             }
         });
     }
